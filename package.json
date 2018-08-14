@@ -1,0 +1,20 @@
+{
+  "name": "basic setup",
+  "version": "1.0.0",
+  "description": "rf-framework npm installs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4"
+  },
+  "dependencies": {
+    "browser-sync": "^2.24.6",
+    "gulp": "^3.9.1",
+    "sass": "^1.11.0"
+  }
+}
