@@ -1,0 +1,16 @@
+/*quick animations for elements CSS3*/
+
+@mixin animate($all:all, $time:0.5s, $efect:ease, $delay:0s){
+  transition: $all $time $efect $delay;
+}
+/* YEAH it is keyframes ))) */
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  }
+}
+@mixin animation_keyframes($keyframes_name, $fillmode, $delay_kf:0) {
+  animation: $keyframes_name;
+  animation-fill-mode: $fillmode;
+  animation-delay: $delay_kf;
+}
