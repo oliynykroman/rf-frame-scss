@@ -1,0 +1,143 @@
+@mixin boxsizing($box_prop: border-box){
+  -moz-box-sizing: $box_prop;
+  -webkit-box-sizing: $box_prop;
+  box-sizing: $box_prop;
+}
+@mixin flex_display{
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+@mixin flex_justify_content ($justify:center){
+  -webkit-box-pack:$justify;
+  -webkit-justify-content: $justify;
+  -moz-box-pack: $justify;
+  -ms-flex-pack: $justify;
+  justify-content: $justify;
+}
+@mixin flex_align_items ($align:center){
+  -ms-flex-align: $align;
+  -webkit-align-items: $align;
+  align-items: $align;
+}
+@mixin flex_direction($direction:row){
+  -webkit-flex-direction: $direction;
+  -moz-flex-direction:$direction;
+  -ms-flex-direction: $direction;
+  flex-direction: $direction;
+}
+@mixin flex_wrap($wrap:wrap){
+  -ms-flex-wrap:$wrap;
+  flex-wrap:$wrap;
+}
+@mixin flex_align_content($align_c:center){
+  -webkit-box-align: $align_c;
+  -moz-box-align: $align_c;
+  -ms-flex-line-pack: $align_c;
+  -webkit-align-content: $align_c;
+  align-content: $align_c;
+}
+@mixin flex_value($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex:  $values;
+  -webkit-flex:  $values;
+  -ms-flex:  $values;
+  flex:  $values;
+}
+@mixin flex_order($order) {
+  -webkit-box-ordinal-group: $order;
+  -moz-box-ordinal-group: $order;
+  -ms-flex-order: $order;
+  -webkit-order: $order;
+  order: $order;
+}
+@mixin zero_m($margin:0px, $padding:0px){
+  margin: $margin;
+  padding: $padding;
+}
+@mixin uls($liststyle:none){
+@include zero_m;
+li{
+  list-style: $liststyle;
+}
+}
+/*Конвертер выдносних одиниць  
+@mixin class {
+  @mixin pxToEm(20px, можна вказати базу);
+  content: $calcEm;
+}
+*/
+@mixin pxToEm($value, $base: 16px) {
+$calcEm: ($value / $base) + 0em;
+}
+/*Радіуси*/
+@mixin radius($radius:1em) { /*Виклик @mixin radius(значення в px)*/
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+/*прозорість (задається від 1 до 100 % з кроком в 1 )*/
+@mixin opacity($opacity:1){
+  -moz-opacity: $opacity/100;
+  -webkit-opacity: $opacity/100;
+  -khtml-opacity: $opacity/100;
+  opacity: $opacity/100;
+}
+/*тіні*/
+@mixin shadows($shadow){
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+/*Правильне центрування і масшатбування картинок, що вписує їх в блок по всіх параметрах + згладжування картинок*/
+@mixin img_cont_proportion ($width:100%, $prop:0.67){
+  padding: (($width * $prop)/2) 0em;
+}
+@mixin image_center{
+  bottom: 0;
+  height: auto;
+  left: 0;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+img {
+  height: auto;
+}
+/* Інтерполяція картинок*/
+/* img {
+    height:auto;
+    image-rendering:optimizeSpeed;              
+    image-rendering:-moz-crisp-edges;                  
+    image-rendering:-o-crisp-edges;                    
+    image-rendering:-webkit-optimize-contrast;           
+    image-rendering:optimize-contrast;           
+    image-rendering:crisp-edges;                 
+    image-rendering:pixelated;                    
+    -ms-interpolation-mode:nearest-neighbor;               
+}*/
+/*для верстки меню табличкою*/
+@mixin table_wrap{
+  display: table;
+  width:100%;
+  > ul{
+    display: table-row;
+    > li{
+      display: table-cell;
+      width:1000px;
+      vertical-align: middle;
+      > a{
+        text-align: center;
+        display: block;
+      }
+    }
+  }
+}

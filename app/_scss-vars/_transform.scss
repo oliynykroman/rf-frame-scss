@@ -1,0 +1,62 @@
+@mixin scale ($factorX:1, $facrorY:1) {
+  -webkit-transform: scale($factorX, $factorY);
+  -moz-transform: scale($factorX, $factorY);
+  -ms-transform: scale($factorX, $factorY);
+  -o-transform: scale($factorX, $factorY);
+  transform: scale($factorX, $factorY);
+}
+@mixin rotate ($deg:0) {
+  -webkit-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  -o-transform: rotate($deg);
+  transform: rotate($deg);
+}
+@mixin skew ($deg:0, $deg2:0) {
+  -webkit-transform: skew($deg, $deg2);
+  -moz-transform: skew($deg, $deg2);
+  -ms-transform: skew($deg, $deg2);
+  -o-transform: skew($deg, $deg2);
+  transform: skew($deg, $deg2);
+}
+@mixin translateX ($x:0) {
+  -webkit-transform: translateX($x);
+  -moz-transform: translateX($x);
+  -ms-transform: translateX($x);
+  -o-transform: translateX($x);
+  transform: translateX($x);
+}
+@mixin translateY ($y:0) {
+  -webkit-transform: translateY($y);
+  -moz-transform: translateY($y);
+  -ms-transform: translateY($y);
+  -o-transform: translateY($y);
+  transform: translateY($y);
+}
+@mixin translateXY ($x:0, $y:0) {
+  -webkit-transform: translate($x, $y);
+  -moz-transform: translate($x, $y);
+  -ms-transform: translate($x, $y);
+  -o-transform: translate($x, $y);
+  transform: translate($x, $y);
+}
+@mixin translate3d ($x:0, $y:0, $z:0) {
+  -webkit-transform: translate3d($x, $y, $z);
+  -moz-transform: translate3d($x, $y, $z);
+  -ms-transform: translate3d($x, $y, $z);
+  -o-transform: translate3d($x, $y, $z);
+  transform: translate3d($x, $y, $z);
+}
+@mixin perspective ($value: 1000) {
+-webkit-perspective:$value;
+-moz-perspective: 	$value;
+-ms-perspective: 	$value;
+perspective: 	$value;
+}
+@mixin transform-origin ($x:center, $y:center) {
+-webkit-transform-origin: $x $y;
+-moz-transform-origin: $x $y;
+-ms-transform-origin: $x $y;
+-o-transform-origin: $x $y;
+transform-origin: $x $y;
+}

@@ -1,0 +1,75 @@
+@import 'vars';
+
+/*FLEX GRID IN SITE*/
+.flex-container {
+  width: $cont_width;
+  max-width: $max_cont_width;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-columns {
+  flex-grow: 1;
+  flex-basis: 100%;
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  @each $breakpoint, $breackpointValue in $user-breakpoints {
+    @media (min-width: $breackpointValue) {
+      max-width: $breackpointValue;
+    }
+  }
+  &.column-h-s {
+    justify-content: flex-start;
+  }
+  &.column-h-c {
+    justify-content: center;
+  }
+  &.column-h-e {
+    justify-content: flex-end;
+  }
+  &.column-h-sb {
+    justify-content: space-between;
+  }
+  &.column-h-sa {
+    justify-content: space-around;
+  }
+  &.column-v-s {
+    align-items: flex-start;
+  }
+  &.column-v-c {
+    align-items: center;
+  }
+  &.column-v-e {
+    align-items: flex-end;
+  }
+}
+
+[class^="flex-col"] {
+  padding-left: $column_spacer-left;
+  padding-right: $column_spacer-right;
+  box-sizing: border-box;
+  width: 100%;
+}
+@for $k from 1 through $column_counter {
+  .flex-col-#{$k} {
+    width: calc(100% * (#{$k} / 12));
+  }
+  .flex-col-#{$k}-hidden {
+    display: none;
+  }
+}
+
+@each $breakpoint-name, $point in $user-breakpoints {
+  @media (min-width: #{$point}) {
+    @for $k from 1 through $column_counter {
+      .flex-col-#{$breakpoint-name}-#{$k} {
+        width: calc(100% * (#{$k} / 12));
+      }
+      .flex-col-#{$breakpoint-name}-hidden {
+        display: none;
+      }
+    }
+  }
+}
