@@ -9,12 +9,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.24.6",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-inject-svg": "^0.1.18",
+    "gulp-plumber": "^1.2.0",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4"
   },
   "dependencies": {
-    "browser-sync": "^2.24.6",
-    "gulp": "^3.9.1",
     "sass": "^1.11.0"
   }
 }
