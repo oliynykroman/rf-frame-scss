@@ -1,24 +1,23 @@
-var gulp = require('gulp');
-var plumber = require('gulp-plumber'); //errors check
+const gulp = require('gulp');
+const plumber = require('gulp-plumber'); //errors check
 
 // compile sass plugins
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
-
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const sourcemaps = require('gulp-sourcemaps');
 
 // browser sync
-var browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync').create();
 reload = browserSync.reload;
 
 // svg injector
-var injectSvg = require('gulp-inject-svg');
+const injectSvg = require('gulp-inject-svg');
 // paTH MUST BE ABSOLUTE fSO WE NNED TO ADD PATH TO APP
 var injectSvgOptions = {base: '/app/'};
 
-
 // image min
 const imagemin = require('gulp-imagemin');
+
 // compile compressed scss
 gulp.task('sass', function () {
     return gulp.src('app/scss/css.scss')
