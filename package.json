@@ -1,7 +1,7 @@
 {
-  "name": "basic setup",
+  "name": "rf-framework",
   "version": "1.0.0",
-  "description": "rf-framework npm installs",
+  "description": "rf-framework npm installer",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
