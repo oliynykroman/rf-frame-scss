@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const plumber = require('gulp-plumber'); //errors check
+var watch = require('gulp-watch');
 
 // compile sass plugins
 const sass = require('gulp-sass');
@@ -20,15 +21,15 @@ const imagemin = require('gulp-imagemin');
 
 // compile compressed scss
 gulp.task('sass', function () {
-    return gulp.src('app/scss/css.scss')
+    return gulp.src(['app/scss/css.scss', 'app/scss/*.css'])
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(sass(
-            {outputStyle: 'compressed'}
+            // {outputStyle: 'compressed'}
         ))
         .pipe(sourcemaps.write({includeContent: false}))
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(autoprefixer({browsers: ['last 3 version', '> 5%']}))
+        .pipe(autoprefixer({browsers: ['last 3 version', '> 1%'], grid:true}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('build/css'))
         .pipe(reload({stream: true}));
@@ -37,10 +38,20 @@ gulp.task('sass', function () {
 //move html and integrate SVG
 gulp.task('html', function () {
     gulp.src('app/*.html')
+        .pipe(plumber())
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest('build/'))
         .pipe(reload({stream: true}));
 });
+
+//move js
+gulp.task('js', function () {
+    gulp.src('app/js/*.js')
+        .pipe(plumber())
+        .pipe(gulp.dest('build/js'))
+        .pipe(reload({stream: true}));
+});
+
 
 gulp.task('imagemin', () =>
     gulp.src('app/images/*')
@@ -58,15 +69,40 @@ gulp.task('fonts', () =>
 );
 
 // browser-sync
+gulp.task('build', [
+    'html',
+    'js',
+    'sass',
+    'imagemin',
+    'fonts',
+]);
+
+gulp.task('watch', function(){
+    watch(['app/*.html'], function(event, cb) {
+        gulp.start('html');
+    });
+    watch(['app/scss/*.scss', 'app/scss/*.css'], function(event, cb) {
+        gulp.start('sass');
+    });
+    watch(['app/js/*.js'], function(event, cb) {
+        gulp.start('js');
+    });
+    watch(['app/images/*'], function(event, cb) {
+        gulp.start('imagemin');
+    });
+    watch(['app/fonts/*'], function(event, cb) {
+        gulp.start('fonts');
+    });
+});
+
+
+// browser-sync
 gulp.task('browser-sync', function () {
-    browserSync.init(["css/*.css", "js/*.js"], {
+    browserSync.init(["css/*.css", "js/*.js", "*.html"], {
         server: {
             baseDir: "build/"
         }
     });
 });
-
 // task watcher
-gulp.task("default", ['sass', 'html', 'imagemin', 'fonts', 'browser-sync'], function () {
-    gulp.watch('app/scss/*.scss', ['sass', 'html']);
-});
+gulp.task('default', ['build', 'watch', 'browser-sync']);
