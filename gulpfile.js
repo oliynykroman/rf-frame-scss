@@ -1,6 +1,7 @@
+'use stricy'
 const gulp = require('gulp');
 const plumber = require('gulp-plumber'); //errors check
-var watch = require('gulp-watch');
+let watch = require('gulp-watch');
 
 // compile sass plugins
 const sass = require('gulp-sass');
@@ -14,10 +15,11 @@ reload = browserSync.reload;
 // svg injector
 const injectSvg = require('gulp-inject-svg');
 // paTH MUST BE ABSOLUTE fSO WE NNED TO ADD PATH TO APP
-var injectSvgOptions = {base: '/app/'};
+let injectSvgOptions = {base: '/app/'};
 
 // image min
 const imagemin = require('gulp-imagemin');
+
 
 // compile compressed scss
 gulp.task('sass', function () {
