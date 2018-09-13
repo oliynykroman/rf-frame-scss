@@ -12,7 +12,7 @@ reload = browserSync.reload;
 
 // svg injector
 const injectSvg = require('gulp-inject-svg');
-// path must be absolute
+// settings must be absolute
 const injectSvgOptions = {base: '/app/'};
 
 // image min
@@ -23,7 +23,7 @@ const uglify = require('gulp-uglify');
 const jsonminify = require('gulp-jsonminify');
 
 
-var path = {
+var settings = {
     build: { //prod
         html: 'build/',
         js: 'build/js/',
@@ -48,12 +48,14 @@ var path = {
         ico: 'app/*.ico',
     },
     browser_sync: 'app/**/*.*',
-    clean: '/build'
+    clean: '/build',
+    isproxy: false,//used when have local server instead browsersunc server
+    isproxy_path: 'http://your full URL'
 };
 
 // compile  scss
 gulp.task('sass', function () {
-    return gulp.src(path.src.style)
+    return gulp.src(settings.src.style)
         .pipe(sass(
             {outputStyle: 'compressed'}
         ))
@@ -61,64 +63,64 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(autoprefixer({browsers: ['last 4 version', '> 1%'], grid: false}))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(path.build.css))
+        .pipe(gulp.dest(settings.build.css))
         .pipe(reload({stream: true}));
 });
 //move html and integrate SVG
 gulp.task('html', function () {
-    gulp.src(path.src.html)
+    gulp.src(settings.src.html)
         .pipe(injectSvg(injectSvgOptions))
-        .pipe(gulp.dest(path.build.html))
+        .pipe(gulp.dest(settings.build.html))
         .pipe(reload({stream: true}));
 });
 //move js
 gulp.task('js', function () {
-    gulp.src(path.src.js)
+    gulp.src(settings.src.js)
         .pipe(uglify())
-        .pipe(gulp.dest(path.build.js))
+        .pipe(gulp.dest(settings.build.js))
         .pipe(reload({stream: true}));
 });
 //minify json
 gulp.task('json', function () {
-    gulp.src(path.src.json)
+    gulp.src(settings.src.json)
         .pipe(jsonminify())
-        .pipe(gulp.dest(path.build.json))
+        .pipe(gulp.dest(settings.build.json))
         .pipe(reload({stream: true}));
 });
 // minify images
 gulp.task('imagemin', function () {
-    gulp.src(path.src.img)
+    gulp.src(settings.src.img)
         .pipe(imagemin([
             imagemin.gifsicle({interlaced: true}),
             imagemin.jpegtran({progressive: true}),
             imagemin.optipng({optimizationLevel: 5})
         ]))
-        .pipe(gulp.dest(path.build.img))
+        .pipe(gulp.dest(settings.build.img))
 });
 // move add files
 gulp.task('assets', function () {
-    gulp.src(path.src.assets)
+    gulp.src(settings.src.assets)
         .pipe(imagemin([
             imagemin.gifsicle({interlaced: true}),
             imagemin.jpegtran({progressive: true}),
             imagemin.optipng({optimizationLevel: 5})
         ]))
-        .pipe(gulp.dest(path.build.assets))
+        .pipe(gulp.dest(settings.build.assets))
         .pipe(reload({stream: true}));
 });
 gulp.task('favicons', function () {
-    gulp.src(path.src.favicons)
-        .pipe(gulp.dest(path.build.favicons))
+    gulp.src(settings.src.favicons)
+        .pipe(gulp.dest(settings.build.favicons))
         .pipe(reload({stream: true}));
 });
 gulp.task('ico', function () {
-    gulp.src(path.src.ico)
-        .pipe(gulp.dest(path.build.ico))
+    gulp.src(settings.src.ico)
+        .pipe(gulp.dest(settings.build.ico))
         .pipe(reload({stream: true}));
 });
 gulp.task('fonts', function () {
-    gulp.src(path.src.fonts)
-        .pipe(gulp.dest(path.build.fonts))
+    gulp.src(settings.src.fonts)
+        .pipe(gulp.dest(settings.build.fonts))
         .pipe(reload({stream: true}));
 });
 // first build
@@ -135,47 +137,51 @@ gulp.task('build', [
 ]);
 // file watchers
 gulp.task('watch', function () {
-    watch(path.src.html, function () {
+    watch(settings.src.html, function () {
         gulp.start('html');
     });
-    watch(path.src.style, function (event, cb) {
+    watch(settings.src.style, function (event, cb) {
         gulp.start('sass');
     });
-    watch(path.src.js, function (event, cb) {
+    watch(settings.src.js, function (event, cb) {
         gulp.start('js');
     });
-    watch(path.src.img, function (event, cb) {
+    watch(settings.src.img, function (event, cb) {
         gulp.start('imagemin');
     });
-    watch(path.src.assets, function (event, cb) {
+    watch(settings.src.assets, function (event, cb) {
         gulp.start('assets');
     });
-    watch(path.src.favicons, function (event, cb) {
+    watch(settings.src.favicons, function (event, cb) {
         gulp.start('favicons');
     });
-    watch(path.src.ico, function (event, cb) {
+    watch(settings.src.ico, function (event, cb) {
         gulp.start('ico');
     });
-    watch(path.src.fonts, function (event, cb) {
+    watch(settings.src.fonts, function (event, cb) {
         gulp.start('fonts');
     });
-    watch(path.src.json, function (event, cb) {
+    watch(settings.src.json, function (event, cb) {
         gulp.start('json');
     });
 });
 // browser-sync
-// gulp.task('browser-sync', function () {
-//     browserSync.init(path.browser_sync, {
-//         server: {
-//             baseDir: "build/"
-//         }
-//     });
-//     // if proxy already have server
-//     // browserSync.init({
-//     //     proxy: {
-//     //         target: targeturl,
-//     //     }
-//     // });
-// });
+gulp.task('browser-sync', function () {
+    if (!settings.isproxy) {
+        browserSync.init(settings.browser_sync, {
+            server: {
+                baseDir: "build/"
+            }
+        });
+    } else {
+        // if proxy already have server
+        browserSync.init({
+            proxy: {
+                target: settings.isproxy_path,
+            }
+        });
+    }
+
+});
 // default build
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch', 'browser-sync']);
