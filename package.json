@@ -20,6 +20,11 @@
     "gulp-watch": "^5.0.1"
   },
   "dependencies": {
-    "sass": "^1.11.0"
+    "gulp-jsonminify": "^1.1.0",
+    "gulp-uglify": "^3.0.1",
+    "gulp.spritesmith": "^6.9.0",
+    "merge-stream": "^1.0.1",
+    "sass": "^1.11.0",
+    "vinyl-buffer": "^1.0.1"
   }
 }
