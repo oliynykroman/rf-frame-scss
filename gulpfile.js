@@ -18,6 +18,11 @@ const injectSvgOptions = {base: '/app/'};
 // image min
 const imagemin = require('gulp-imagemin');
 
+//png, jpeg spreites
+const spritesmith = require('gulp.spritesmith');
+const merge = require('merge-stream');
+var buffer = require('vinyl-buffer');
+
 // js, json min
 const uglify = require('gulp-uglify');
 const jsonminify = require('gulp-jsonminify');
@@ -28,6 +33,8 @@ var settings = {
         html: 'build/',
         js: 'build/js/',
         css: 'build/css/',
+        sprite_css: 'app/_scss-vars/',
+        sprite_image_name: '../images/sprite.png',
         img: 'build/images/',
         fonts: 'build/fonts/',
         json: 'build/json/',
@@ -40,21 +47,24 @@ var settings = {
         js: 'app/js/*.js',
         style: ['app/scss/css.scss'],
         img: 'app/images/*.*',
-        sprite_png: 'app/images/sprite/**/*.png',
+        sprite_png: 'app/images/sprites/**/*.{png,jpg}',
         fonts: 'app/fonts/**/*.*',
         json: 'app/json/*.json',
         assets: 'app/assets/**/*.*',
         favicons: 'app/favicons/**/*.*',
         ico: 'app/*.ico',
     },
-    browser_sync: 'app/**/*.*',
     clean: '/build',
-    isproxy: false,//used when have local server instead browsersunc server
-    isproxy_path: 'http://your full URL'
+    // browser sync settings
+    browser_sync: 'app/**/*.*',
+    isProxy: false,//used when have local server instead browsersunc server
+    isProxy_path: 'http://your full URL',
+    // sprite settings
+    isSprite: false
 };
 
 // compile  scss
-gulp.task('sass', function () {
+gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
     return gulp.src(settings.src.style)
         .pipe(sass(
             {outputStyle: 'compressed'}
@@ -97,7 +107,29 @@ gulp.task('imagemin', function () {
         ]))
         .pipe(gulp.dest(settings.build.img))
 });
-// move add files
+//sprites generator
+gulp.task('sprite', function () {
+    if (settings.isSprite) {
+        var spriteData = gulp.src(settings.src.sprite_png)
+            .pipe(spritesmith({
+                imgName: settings.build.sprite_image_name,
+                cssName: 'sprite.css'
+            }));
+        var imgStream = spriteData.img
+            .pipe(buffer())
+            .pipe(imagemin([
+                imagemin.gifsicle({interlaced: true}),
+                imagemin.jpegtran({progressive: true}),
+                imagemin.optipng({optimizationLevel: 5})
+            ]))
+            .pipe(gulp.dest(settings.build.img));
+        var cssStream = spriteData.css
+            .pipe(gulp.dest(settings.build.sprite_css));
+        return merge(imgStream, cssStream);
+    }
+});
+
+// move addititional files
 gulp.task('assets', function () {
     gulp.src(settings.src.assets)
         .pipe(imagemin([
@@ -127,6 +159,7 @@ gulp.task('fonts', function () {
 gulp.task('build', [
     'html',
     'js',
+    'sprite',
     'sass',
     'imagemin',
     'assets',
@@ -139,6 +172,9 @@ gulp.task('build', [
 gulp.task('watch', function () {
     watch(settings.src.html, function () {
         gulp.start('html');
+    });
+    watch(settings.src.sprite_png, function (event, cb) {
+        gulp.start('sprite');
     });
     watch(settings.src.style, function (event, cb) {
         gulp.start('sass');
@@ -167,7 +203,7 @@ gulp.task('watch', function () {
 });
 // browser-sync
 gulp.task('browser-sync', function () {
-    if (!settings.isproxy) {
+    if (!settings.isProxy) {
         browserSync.init(settings.browser_sync, {
             server: {
                 baseDir: "build/"
@@ -177,7 +213,7 @@ gulp.task('browser-sync', function () {
         // if proxy already have server
         browserSync.init({
             proxy: {
-                target: settings.isproxy_path,
+                target: settings.isProxy_path,
             }
         });
     }
