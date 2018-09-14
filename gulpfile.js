@@ -18,10 +18,11 @@ const injectSvgOptions = {base: '/app/'};
 // image min
 const imagemin = require('gulp-imagemin');
 
-//png, jpeg spreites
+//png, jpeg, svg sprites
 const spritesmith = require('gulp.spritesmith');
 const merge = require('merge-stream');
-var buffer = require('vinyl-buffer');
+const buffer = require('vinyl-buffer');
+const svgSprite = require("gulp-svg-sprites");
 
 // js, json min
 const uglify = require('gulp-uglify');
@@ -48,6 +49,7 @@ var settings = {
         style: ['app/scss/css.scss'],
         img: 'app/images/*.*',
         sprite_png: 'app/images/sprites/**/*.{png,jpg}',
+        sprite_svg: 'app/images/sprites/**/*.svg',
         fonts: 'app/fonts/**/*.*',
         json: 'app/json/*.json',
         assets: 'app/assets/**/*.*',
@@ -60,7 +62,8 @@ var settings = {
     isProxy: false,//used when have local server instead browsersunc server
     isProxy_path: 'http://your full URL',
     // sprite settings
-    isSprite: false
+    isSprite_RASTER: false,
+    isSprite_VECTOR: false,
 };
 
 // compile  scss
@@ -109,7 +112,8 @@ gulp.task('imagemin', function () {
 });
 //sprites generator
 gulp.task('sprite', function () {
-    if (settings.isSprite) {
+    // raster (PNG, JPG) images
+    if (settings.isSprite_RASTER) {
         var spriteData = gulp.src(settings.src.sprite_png)
             .pipe(spritesmith({
                 imgName: settings.build.sprite_image_name,
@@ -126,6 +130,21 @@ gulp.task('sprite', function () {
         var cssStream = spriteData.css
             .pipe(gulp.dest(settings.build.sprite_css));
         return merge(imgStream, cssStream);
+    }
+    // vector images SVG
+    if (settings.isSprite_VECTOR) {
+        return gulp.src(settings.src.sprite_svg)
+            .pipe(svgSprite({
+                    selector: "sp-svg-%f",
+                    svg: {
+                        sprite: "sprite.svg"
+                    },
+                    svgPath: "%f",
+                    cssFile: "svg_sprite.css",
+                    common: "sprite-svg"
+                }
+            ))
+            .pipe(gulp.dest(settings.build.img));
     }
 });
 
