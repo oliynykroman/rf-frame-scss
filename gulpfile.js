@@ -1,3 +1,4 @@
+"use strict"
 const gulp = require('gulp');
 const watch = require('gulp-watch');
 
@@ -8,7 +9,7 @@ const sourcemaps = require('gulp-sourcemaps');
 
 // browser sync
 const browserSync = require('browser-sync').create();
-reload = browserSync.reload;
+const reload = browserSync.reload;
 
 // svg injector
 const injectSvg = require('gulp-inject-svg');
@@ -29,7 +30,7 @@ const uglify = require('gulp-uglify');
 const jsonminify = require('gulp-jsonminify');
 
 
-var settings = {
+const settings = {
     build: { //prod
         html: 'build/',
         js: 'build/js/',

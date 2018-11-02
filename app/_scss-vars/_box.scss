@@ -65,7 +65,7 @@ li{
   list-style: $liststyle;
 }
 }
-/*Конвертер выдносних одиниць  
+/*Конвертер выдносних одиниць
 @mixin class {
   @mixin pxToEm(20px, можна вказати базу);
   content: $calcEm;
