@@ -1,9 +1,11 @@
-@mixin boxsizing($box_prop: border-box){
+@mixin boxsizing($box_prop: border-box) {
   -moz-box-sizing: $box_prop;
   -webkit-box-sizing: $box_prop;
   box-sizing: $box_prop;
 }
-@mixin flex_display{
+
+//flex for IE and modern browsers support
+@mixin flex_display {
   -ms-box-orient: horizontal;
   display: -webkit-box;
   display: -moz-box;
@@ -12,42 +14,49 @@
   display: -webkit-flex;
   display: flex;
 }
-@mixin flex_justify_content ($justify:center){
-  -webkit-box-pack:$justify;
+
+@mixin flex_justify_content($justify:center) {
+  -webkit-box-pack: $justify;
   -webkit-justify-content: $justify;
   -moz-box-pack: $justify;
   -ms-flex-pack: $justify;
   justify-content: $justify;
 }
-@mixin flex_align_items ($align:center){
+
+@mixin flex_align_items($align:center) {
   -ms-flex-align: $align;
   -webkit-align-items: $align;
   align-items: $align;
 }
-@mixin flex_direction($direction:row){
+
+@mixin flex_direction($direction:row) {
   -webkit-flex-direction: $direction;
-  -moz-flex-direction:$direction;
+  -moz-flex-direction: $direction;
   -ms-flex-direction: $direction;
   flex-direction: $direction;
 }
-@mixin flex_wrap($wrap:wrap){
-  -ms-flex-wrap:$wrap;
-  flex-wrap:$wrap;
+
+@mixin flex_wrap($wrap:wrap) {
+  -ms-flex-wrap: $wrap;
+  flex-wrap: $wrap;
 }
-@mixin flex_align_content($align_c:center){
+
+@mixin flex_align_content($align_c:center) {
   -webkit-box-align: $align_c;
   -moz-box-align: $align_c;
   -ms-flex-line-pack: $align_c;
   -webkit-align-content: $align_c;
   align-content: $align_c;
 }
+
 @mixin flex_value($values) {
   -webkit-box-flex: $values;
-  -moz-box-flex:  $values;
-  -webkit-flex:  $values;
-  -ms-flex:  $values;
-  flex:  $values;
+  -moz-box-flex: $values;
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex: $values;
 }
+
 @mixin flex_order($order) {
   -webkit-box-ordinal-group: $order;
   -moz-box-ordinal-group: $order;
@@ -55,49 +64,148 @@
   -webkit-order: $order;
   order: $order;
 }
-@mixin zero_m($margin:0px, $padding:0px){
+
+//Grid for IE and modern browsers support
+@mixin grid {
+  display: -ms-grid;
+  display: grid;
+}
+
+@function grid-repeat($stuff, $repeat, $gap) {
+  $list: ();
+  @for $i from 1 through $repeat {
+    @if $gap {
+      $list: append($list, $stuff $gap, space);
+    } @else {
+      $list: append($list, $stuff, space);
+    }
+  }
+  @return $list;
+}
+
+@mixin grid-template-columns($column-repeat-exp:1fr, $column-repeat-count:1, $column-gap:false) {
+  @if $column-gap != false {
+    grid-column-gap: $column-gap;
+    grid-template-columns: grid-repeat($column-repeat-exp, $column-repeat-count, false);
+    -ms-grid-columns: grid-repeat($column-repeat-exp, $column-repeat-count, $column-gap);
+  } @else {
+    grid-template-columns: grid-repeat($column-repeat-exp, $column-repeat-count, false);
+    -ms-grid-columns: grid-repeat($column-repeat-exp, $column-repeat-count, $column-gap);
+  }
+}
+
+@mixin grid-template-rows($row-repeat-exp:1fr, $row-repeat-count:1, $row-gap:false) {
+  @if $row-gap != false {
+    grid-row-gap: $row-gap;
+    grid-template-rows: grid-repeat($row-repeat-exp, $row-repeat-count, false);
+    -ms-grid-rows: grid-repeat($row-repeat-exp, $row-repeat-count, $row-gap);
+  } @else {
+    grid-template-rows: grid-repeat($row-repeat-exp, $row-repeat-count, false);
+    -ms-grid-rows: grid-repeat($row-repeat-exp, $row-repeat-count, $row-gap);
+  }
+
+}
+
+@mixin grid-gap($grid-gap) {
+  -webkit-grid-gap: $grid-gap;
+  grid-gap: $grid-gap;
+}
+
+@mixin column-gap($column-gap) {
+  -webkit-column-gap: $column-gap;
+  column-gap: $column-gap;
+}
+
+@mixin grid-column($col-start, $col-end, $column-start-ie:false, $column-end-ie:false) {
+  @if $column-start-ie !=false {
+    -ms-grid-column: $column-start-ie;
+    -ms-grid-column-span: $column-end-ie - $column-start-ie;
+    grid-column: #{$col-start} / #{$col-end};
+  } @else {
+    -ms-grid-column: $col-start;
+    -ms-grid-column-span: $col-end - $col-start;
+    grid-column: #{$col-start} / #{$col-end};
+  }
+}
+
+@mixin row-gap($row-gap) {
+  -webkit-row-gap: $row-gap;
+  row-gap: $row-gap;
+}
+
+@mixin grid-row($row-start, $row-end, $row-start-ie:false, $row-end-ie:false) {
+  @if $row-start-ie !=false {
+    -ms-grid-row: $row-start-ie;
+    -ms-grid-row-span: $row-end-ie - $row-start-ie;
+    grid-row: #{$row-start} / #{$row-end};
+  } @else {
+    -ms-grid-row: $row-start;
+    -ms-grid-row-span: $row-end -  $row-start;
+    grid-row: #{$row-start} / #{$row-end};
+  }
+}
+
+@mixin grid-align-self($value) {
+  -ms-grid-row-align: $value;
+  align-self: $value;
+}
+
+@mixin grid-justify-self($value) {
+  -ms-grid-column-align: $value;
+  justify-self: $value;
+}
+
+//margin and padding fix
+@mixin zero_m($margin:0px, $padding:0px) {
   margin: $margin;
   padding: $padding;
 }
-@mixin uls($liststyle:none){
-@include zero_m;
-li{
-  list-style: $liststyle;
+
+@mixin uls($liststyle:none) {
+  @include zero_m;
+  li {
+    list-style: $liststyle;
+  }
 }
-}
-/*Конвертер выдносних одиниць
+
+/*convert px to em
 @mixin class {
   @mixin pxToEm(20px, можна вказати базу);
   content: $calcEm;
 }
 */
 @mixin pxToEm($value, $base: 16px) {
-$calcEm: ($value / $base) + 0em;
+  $calcEm: ($value / $base) + 0em;
 }
-/*Радіуси*/
-@mixin radius($radius:1em) { /*Виклик @mixin radius(значення в px)*/
+
+/*border radius*/
+@mixin radius($radius:1em) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
 }
-/*прозорість (задається від 1 до 100 % з кроком в 1 )*/
-@mixin opacity($opacity:1){
+
+/*opacity (from 0 to 100 )*/
+@mixin opacity($opacity:1) {
   -moz-opacity: $opacity/100;
   -webkit-opacity: $opacity/100;
   -khtml-opacity: $opacity/100;
   opacity: $opacity/100;
 }
-/*тіні*/
-@mixin shadows($shadow){
+
+/*shadows*/
+@mixin shadows($shadow) {
   -webkit-box-shadow: $shadow;
   -moz-box-shadow: $shadow;
   box-shadow: $shadow;
 }
-/*Правильне центрування і масшатбування картинок, що вписує їх в блок по всіх параметрах + згладжування картинок*/
-@mixin img_cont_proportion ($width:100%, $prop:0.67){
+
+/*asperct ratio*/
+@mixin img_cont_proportion($width:100%, $prop:0.67) {
   padding: (($width * $prop)/2) 0em;
 }
-@mixin image_center{
+
+@mixin image_center {
   bottom: 0;
   height: auto;
   left: 0;
@@ -109,10 +217,8 @@ $calcEm: ($value / $base) + 0em;
   top: 0;
   width: auto;
 }
-img {
-  height: auto;
-}
-/* Інтерполяція картинок*/
+
+/* image interpolation*/
 /* img {
     height:auto;
     image-rendering:optimizeSpeed;              
@@ -124,17 +230,17 @@ img {
     image-rendering:pixelated;                    
     -ms-interpolation-mode:nearest-neighbor;               
 }*/
-/*для верстки меню табличкою*/
-@mixin table_wrap{
+/*for OLD SCHOOL )) table menu (when we can't using flex and need to put with blocks all space)*/
+@mixin table_wrap {
   display: table;
-  width:100%;
-  > ul{
+  width: 100%;
+  > ul {
     display: table-row;
-    > li{
+    > li {
       display: table-cell;
-      width:1000px;
+      width: 1000px;
       vertical-align: middle;
-      > a{
+      > a {
         text-align: center;
         display: block;
       }

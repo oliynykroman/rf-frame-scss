@@ -1,183 +1,43 @@
-/*Блок обовязкових кольорів сайта*/
-$href_c: #000; /*колір гіперпосилань*/
-$text_c: #000; /*колір текста*/
-$err_c: #000; /*колір помилкових полів */
-$notify_c: #000; /*повідомлення*/
-$plch_c: #000; /*плейсхолдери*/
-
 /*Global vars*/
 
-$profileBCK: #F9F5F0;
-$cream: #F2EBE1;
-$blueDark: #002943;
-$blueGray: #5C798B;
-$blue: #4051FF;
-$yellow: #D7FD00;
 $white: #fff;
 $black: #000;
-$copyrightGrayLine: rgba(216, 216, 216, .1);
-$destinationLinks: #7F7F7F;
-$text-color: rgba(255, 255, 255, .6);
-/*columns*/
 
-$column_spacer:15px;
-$column_spacer-left:$column_spacer;
-$column_spacer-right:$column_spacer;
+/*columns*/
+$column_spacer: 15px;
+$column_spacer-left: $column_spacer;
+$column_spacer-right: $column_spacer;
 $column_counter: 12;
 $cont_width: 95%;
 $max_cont_width: 1170px;
 
 $globalPaddingLeft: 60px;
 $globalBigLeft: 75px;
+
 /*grid sizes*/
 $user-breakpoints: (
-  xs : 540px,
-  s : 769px,
-  m : 960px,
-  l : 1200px
+        xs : 540px,
+        s : 769px,
+        m : 960px,
+        l : 1200px
 );
 
-/*Тінь блока*/
+/*shadows*/
 /*$shadow: 0.5px 0.866px 21px 0px rgba(0, 0, 0, 0.14);*/
 /*$txt_shadow:1px 1px 1px rgba(255, 255, 255, 1);*/
 
-/*Мусові кольори для плейсхолдерів і невірно заповнених полів форм*/
-$placeholder-color: $plch_c;
-$required-color: $notify_c;
-$error_formfield-color: $err_c;
-$error_message_block_bck: $err_c;
-$error_message_block_color: $err_c;
-/* стилі плейсхолдерів до купки не клеїти! */
-::-webkit-input-placeholder {
-  color: $placeholder-color !important;
-}
-
-:-moz-placeholder {
-  color: $placeholder-color !important;
-}
-
-::-moz-placeholder {
-  color: $placeholder-color !important;
-}
-
-:-ms-input-placeholder {
-  color: $placeholder-color !important;
-}
-
-/*icons styles*/
-
-@mixin yellow_circle($background:$yellow, $size-inner:40px, $size-outher:70px) {
-  &:before, &:after {
-    background-color: $background;
-    content: '';
-    width: $size-inner;
-    height: $size-inner;
-    position: absolute;
-    top: $size-outher / 2;
-    border-radius: 50%;
-    left: 50%;
-    margin-left: - $size-inner/2;
-    box-sizing: border-box;
+/*placeholder color mixin*/
+@mixin palceholders($placeholder-color) {
+  ::-webkit-input-placeholder {
+    color: $placeholder-color !important;
   }
-  &:after {
-    background-color: transparent;
-    border: 2px solid $yellow;
-    opacity: 0;
-    transition: all .9s;
+  :-moz-placeholder {
+    color: $placeholder-color !important;
   }
-  &:hover {
-    &:after {
-      transform: scale(1.7);
-      opacity: .3;
-      box-shadow: 2px 2px 10px 0 rgba(1, 14, 29, 0.3);
-    }
+  ::-moz-placeholder {
+    color: $placeholder-color !important;
   }
-}
-
-@mixin dropdown_header() {
-  font-size: 18px;
-  font-family: Century Schoolbook, sans-serif;
-  line-height: 24px;
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 10px 0 rgba(0, 22, 37, 0.4);
-  padding: 28px 40px 28px 20px;
-  position: relative;
-  margin-bottom: 35px;
-  cursor: pointer;
-  transition: all .9s ease-in;
-  width: 100%;
-  box-sizing: border-box;
-  &:after {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    margin-top: -4px;
-    content: '';
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    transform: rotate(180deg);
-    border-width: 11px 8px 0 8px;
-    border-color: $white transparent transparent transparent;
-    transition: all .3s ease-in;
-  }
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-  }
-}
-
-@mixin nav-left-right() {
-  .nav-port-container {
-    position: absolute;
-    bottom: 0;
-    text-transform: uppercase;
-    font-size: 12px;
-    left: 0;
-    width: 100%;
-    .nav-port {
-      position: absolute;
-      bottom: 0;
-      cursor: pointer;
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-      @include animate(opacity);
-      &:before {
-        font-size: 54/14 + em;
-        position: absolute;
-        line-height: 14px;
-      }
-      &:hover {
-        opacity: .6;
-      }
-      &.nav-left {
-        padding-left: 60/14 + em;
-        left: 10px;
-        &:before {
-          left: 0;
-        }
-      }
-      &.nav-right {
-        right: 10px;
-        padding-right: 60/14 + em;
-        &:before {
-          right: 0;
-        }
-      }
-      &:focus{
-        border: none;
-        outline: none;
-      }
-    }
-  }
-  .swiper-button-disabled {
-    opacity: .3;
-    pointer-events: none;
-    @include animate;
+  :-ms-input-placeholder {
+    color: $placeholder-color !important;
   }
 }

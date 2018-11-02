@@ -58,6 +58,10 @@ const settings = {
         ico: 'app/*.ico',
     },
     clean: '/build',
+
+    //compress files
+    compress_Css:'expanded', //'compressed', 'nested', 'expanded'
+
     // browser sync settings
     browser_sync: 'app/**/*.*',
     isProxy: false,//used when have local server instead browsersunc server
@@ -71,7 +75,7 @@ const settings = {
 gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
     return gulp.src(settings.src.style)
         .pipe(sass(
-            {outputStyle: 'compressed'}
+            {outputStyle: settings.compress_Css}
         ))
         .pipe(sourcemaps.write({includeContent: false}))
         .pipe(sourcemaps.init({loadMaps: true}))
