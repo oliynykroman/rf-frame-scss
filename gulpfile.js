@@ -35,6 +35,7 @@ const settings = {
         html: 'build/',
         js: 'build/js/',
         css: 'build/css/',
+        cleanCss: 'build/css/',
         sprite_css: 'app/_scss-vars/',
         sprite_image_name: '../images/sprite.png',
         img: 'build/images/',
@@ -48,6 +49,7 @@ const settings = {
         html: ['app/*.html'],
         js: 'app/js/*.js',
         style: ['app/scss/css.scss'],
+        cleanCss: ['app/css/*.css'],
         img: 'app/images/*.*',
         sprite_png: 'app/images/sprites/**/*.{png,jpg}',
         sprite_svg: 'app/images/sprites/**/*.svg',
@@ -89,6 +91,12 @@ gulp.task('html', function () {
     gulp.src(settings.src.html)
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest(settings.build.html))
+        .pipe(reload({stream: true}));
+});
+//move html and integrate SVG
+gulp.task('css', function () {
+    gulp.src(settings.src.cleanCss)
+        .pipe(gulp.dest(settings.build.cleanCss))
         .pipe(reload({stream: true}));
 });
 //move js
@@ -182,6 +190,7 @@ gulp.task('fonts', function () {
 // first build
 gulp.task('build', [
     'html',
+    'css',
     'js',
     'sprite',
     'sass',
@@ -196,6 +205,9 @@ gulp.task('build', [
 gulp.task('watch', function () {
     watch(settings.src.html, function () {
         gulp.start('html');
+    });
+    watch(settings.src.cleanCss, function () {
+        gulp.start('css');
     });
     watch(settings.src.sprite_png, function (event, cb) {
         gulp.start('sprite');
