@@ -1,5 +1,6 @@
-/*Сімейства шрифтів. Якщо є то тре покласти в папку fonts*/
-/*підключалка: .font-face(pf_beausans_probbook, pfbeausanspro_book);*/
+/* to do */
+/*font family fonts*/
+/*add: .font-face(pf_beausans_probbook, pfbeausanspro_book);*/
 
 // @include font-face(Samplino, fonts/Samplino);
 //@include font-face("Samplina Neue", fonts/SamplinaNeue, bold, italic);
@@ -37,8 +38,8 @@
   }
 }
 
-/*Трикрапки*/
-/*мусять бути задані фізичні розміри*/
+/*...dots*/
+/*block must have size*/
 @mixin ellipsis{
   text-overflow: ellipsis;
   word-break: break-all;
