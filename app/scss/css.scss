@@ -2,14 +2,13 @@
 @import "../_scss-vars/vars";
 @import "../_scss-vars/animate";
 @import "../_scss-vars/box";
-@import "../_scss-vars/transform";
-@import "../_scss-vars/typo";
+//@import "../_scss-vars/transform";
+//@import "../_scss-vars/typo";
 
 //@import "../_scss-vars/columns";
 
 //if used sprites uncomment this
 //@import "../_scss-vars/sprite";
-
 
 .grid-wrap {
   @include grid;
@@ -25,37 +24,37 @@
 
 .header {
   @include grid-column(1, 10, 1, 20);
-  @include grid-row(1,2);
+  @include grid-row(1, 2);
   background-color: yellow;
 }
 
 .menu {
   @include grid-column(10, 13, 21, 25);
-  @include grid-row(1,7);
+  @include grid-row(1, 7);
   background: red;
 }
 
 .banner {
   @include grid-column(3, 8, 6, 16);
-  @include grid-row(2,3, 3,4);
+  @include grid-row(2, 3, 3, 4);
   background-color: green;
 }
 
 .news {
   @include grid-column(8, 10, 17, 20);
-  @include grid-row(2,3,3,4);
+  @include grid-row(2, 3, 3, 4);
   background-color: gray;
 }
 
 .content {
   @include grid-column(3, 10, 6, 20);
-  @include grid-row(4,6,5,7);
+  @include grid-row(4, 6, 5, 7);
   background-color: violet;
 }
 
 .footer {
   @include grid-column(1, 13, 1, 25);
-  @include grid-row(6,7,7,8);
+  @include grid-row(6, 7, 7, 8);
   background-color: black;
   color: white;
 }

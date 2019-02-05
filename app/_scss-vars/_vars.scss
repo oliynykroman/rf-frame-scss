@@ -15,11 +15,13 @@ $globalPaddingLeft: 60px;
 $globalBigLeft: 75px;
 
 /*grid sizes*/
+//you can use in media queries specyfic breakpoint
+//@media screen and (min-width: #{map_get($user-breakpoints, extra-small)}){}
 $user-breakpoints: (
-        xs : 540px,
-        s : 769px,
-        m : 960px,
-        l : 1200px
+        extra-small : 540px,
+        small : 769px,
+        medium : 960px,
+        large : 1200px
 );
 
 /*shadows*/
