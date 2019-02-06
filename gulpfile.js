@@ -4,7 +4,8 @@ const watch = require('gulp-watch');
 
 // compile sass plugins
 const sass = require('gulp-sass');
-const autoprefixer = require('gulp-autoprefixer');
+const autoprefixer = require('autoprefixer');
+const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 
 // browser sync
@@ -77,11 +78,11 @@ const settings = {
 gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
     return gulp.src(settings.src.style)
         .pipe(sass(
-            {outputStyle: settings.compress_Css}
+            // {outputStyle: settings.compress_Css}
         ))
         .pipe(sourcemaps.write({includeContent: false}))
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(autoprefixer({browsers: ['last 4 version', '> 1%'], grid: false}))
+        .pipe(postcss([autoprefixer({browsers: ['last 4 version', '> 1%'], grid: 'false'})]))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(settings.build.css))
         .pipe(reload({stream: true}));
