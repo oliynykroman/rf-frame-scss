@@ -15,6 +15,10 @@
   @include grid-gap(10px);
   @include grid-template-columns(1fr, 12, 10px);
   @include grid-template-rows(1fr, 7, 10px);
+
+  //using repeat cols or rows for IE with GAP feature
+  $from-smartphone-portrait: unquote("1fr (15px minmax(0px, 65px))[12] 15px 1fr");
+  -ms-grid-columns: $from-smartphone-portrait;
 }
 
 .grid-wrap > * {
