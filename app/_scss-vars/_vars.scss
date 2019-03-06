@@ -3,6 +3,16 @@
 $white: #fff;
 $black: #000;
 
+:root {
+  --red: #ff1e2d;
+  --blue: #0047ff;
+}
+
+$vars: (
+        red: #ff1e2d,
+        blue: #0047ff,
+);
+
 /*columns*/
 $column_spacer: 15px;
 $column_spacer-left: $column_spacer;
@@ -42,4 +52,9 @@ $user-breakpoints: (
   :-ms-input-placeholder {
     color: $placeholder-color !important;
   }
+}
+/*css varable generator + fallback*/
+@mixin var($property, $varName) {
+  #{$property}: map-get($vars, $varName);
+  #{$property}: var(--#{$varName});
 }
