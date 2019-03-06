@@ -4,8 +4,7 @@ const watch = require('gulp-watch');
 
 // compile sass plugins
 const sass = require('gulp-sass');
-const autoprefixer = require('autoprefixer');
-const postcss = require('gulp-postcss');
+const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
 
 // browser sync
@@ -68,7 +67,7 @@ const settings = {
     // browser sync settings
     browser_sync: 'app/**/*.*',
     isProxy: false,//used when have local server instead browsersunc server
-    isProxy_path: 'http://your full URL',
+    isProxy_path: 'http://your full URL', //when local server used instead browsersync
     // sprite settings
     isSprite_RASTER: false,
     isSprite_VECTOR: false,
@@ -78,11 +77,11 @@ const settings = {
 gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
     return gulp.src(settings.src.style)
         .pipe(sass(
-            // {outputStyle: settings.compress_Css}
+            {outputStyle: settings.compress_Css}
         ))
         .pipe(sourcemaps.write({includeContent: false}))
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(postcss([autoprefixer({browsers: ['last 4 version', '> 1%'], grid: 'false'})]))
+        .pipe(autoprefixer({browsers: ['last 4 version', '> 1%'], grid: false}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(settings.build.css))
         .pipe(reload({stream: true}));
@@ -94,7 +93,7 @@ gulp.task('html', function () {
         .pipe(gulp.dest(settings.build.html))
         .pipe(reload({stream: true}));
 });
-//move html and integrate SVG
+//move css
 gulp.task('css', function () {
     gulp.src(settings.src.cleanCss)
         .pipe(gulp.dest(settings.build.cleanCss))
