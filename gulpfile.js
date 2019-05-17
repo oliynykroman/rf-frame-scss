@@ -1,6 +1,7 @@
 "use strict"
 const gulp = require('gulp');
 const watch = require('gulp-watch');
+const rigger = require('gulp-rigger');
 
 // compile sass plugins
 const sass = require('gulp-sass');
@@ -89,6 +90,7 @@ gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
 //move html and integrate SVG
 gulp.task('html', function () {
     gulp.src(settings.src.html)
+        .pipe(rigger())
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest(settings.build.html))
         .pipe(reload({stream: true}));
@@ -160,7 +162,6 @@ gulp.task('sprite', function () {
             .pipe(gulp.dest(settings.build.img));
     }
 });
-
 // move addititional files
 gulp.task('assets', function () {
     gulp.src(settings.src.assets)
