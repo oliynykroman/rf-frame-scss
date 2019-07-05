@@ -12,55 +12,103 @@
 //if used sprites uncomment this
 //@import "../_scss-vars/sprite";
 
-.grid-wrap {
-  @include grid;
-  @include grid-gap(10px);
-  @include grid-template-columns(1fr, 12, 10px);
-  @include grid-template-rows(1fr, 7, 10px);
-
-  //using repeat cols or rows for IE with GAP feature
-  $from-smartphone-portrait: unquote("1fr (15px minmax(0px, 65px))[12] 15px 1fr");
-  -ms-grid-columns: $from-smartphone-portrait;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-.grid-wrap > * {
-  border: 1px solid gray;
-  display: block; /*without any inline :) */
+.grid {
+  display: grid;
+  margin: 100px 0;
 }
 
 .header {
-  @include grid-column(1, 10, 1, 20);
+  @include grid-column(1, 10, 1, 18);
   @include grid-row(1, 2);
   background-color: yellow;
 }
 
 .menu {
-  @include grid-column(10, 13, 21, 25);
+  @include grid-column(10, 13, 19, 24);
   @include grid-row(1, 7);
   background: red;
 }
 
 .banner {
-  @include grid-column(3, 8, 6, 16);
+  @include grid-column(3, 8, 5, 14);
   @include grid-row(2, 3, 3, 4);
   background-color: green;
 }
 
 .news {
-  @include grid-column(8, 10, 17, 20);
+  @include grid-column(8, 10, 15, 18);
   @include grid-row(2, 3, 3, 4);
   background-color: gray;
 }
 
 .content {
-  @include grid-column(3, 10, 6, 20);
+  @include grid-column(3, 10, 5, 18);
   @include grid-row(4, 6, 5, 7);
   background-color: violet;
 }
 
 .footer {
-  @include grid-column(1, 13, 1, 25);
+  @include grid-column(1, 13, 1, 24);
   @include grid-row(6, 7, 7, 8);
   background-color: black;
   color: white;
+}
+
+@media screen and (min-width: 375px) {
+  .example-grid {
+    .normal-grid {
+      grid-column-gap: 20px;
+      grid-template-columns: 1fr repeat(12, minmax(8px, 10%)) 1fr;
+    }
+    .legacy-grid {
+      grid-template-columns: 1fr repeat(12, 20px minmax(8px, 10%)) 20px 1fr;
+    }
+  }
+  .grid {
+    grid-column-gap: 20px;
+    $from-smartphone-portrait: unquote("1fr (20px minmax(8px, 10%))[12] 20px 1fr");
+    -ms-grid-columns: $from-smartphone-portrait;
+    grid-template-columns: 1fr repeat(12, minmax(8px, 10%)) 1fr;
+  }
+}
+
+@media screen and (min-width: 1023px) {
+  .example-grid {
+    .normal-grid {
+      grid-column-gap: 20px;
+      grid-template-columns: 1fr repeat(12, minmax(0, 60px)) 1fr;
+    }
+    .legacy-grid {
+      grid-template-columns: 1fr repeat(12, 20px minmax(0, 60px)) 20px 1fr;
+    }
+  }
+  .grid {
+    grid-column-gap: 20px;
+    $from-smartphone-portrait: unquote("1fr (20px minmax(0px, 60px))[12] 60px 1fr");
+    -ms-grid-columns: $from-smartphone-portrait;
+    grid-template-columns: 1fr repeat(12, minmax(0px, 60px)) 1fr;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .example-grid {
+    .normal-grid {
+      grid-column-gap: 30px;
+      grid-template-columns: 1fr repeat(12, minmax(0, 70px)) 1fr;
+    }
+    .legacy-grid {
+      grid-template-columns: 1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr;
+    }
+  }
+  .grid {
+    grid-column-gap: 30px;
+    $from-smartphone-portrait: unquote("1fr (30px minmax(0px, 70px))[12] 30px 1fr");
+    -ms-grid-columns: $from-smartphone-portrait;
+    grid-template-columns: 1fr repeat(12, minmax(0px, 70px)) 1fr;
+  }
 }

@@ -82,7 +82,7 @@ gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
         ))
         .pipe(sourcemaps.write({includeContent: false}))
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(autoprefixer({browsers: ['last 4 version', '> 1%'], grid: false}))
+        .pipe(autoprefixer({browsers: ['last 4 version', '> 1%'], grid: true}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(settings.build.css))
         .pipe(reload({stream: true}));
