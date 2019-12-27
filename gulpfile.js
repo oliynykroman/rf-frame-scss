@@ -15,7 +15,7 @@ const reload = browserSync.reload;
 // svg injector
 const injectSvg = require('gulp-inject-svg');
 // settings must be absolute
-const injectSvgOptions = {base: '/app/'};
+const injectSvgOptions = { base: '/app/' };
 
 // image min
 const imagemin = require('gulp-imagemin');
@@ -49,7 +49,7 @@ const settings = {
     src: { //develop
         html: ['app/*.html'],
         js: 'app/js/*.js',
-        style: ['app/scss/css.scss'],
+        style: ['app/scss/*.scss'],
         cleanCss: ['app/css/*.css'],
         img: 'app/images/*.*',
         sprite_png: 'app/images/sprites/**/*.{png,jpg}',
@@ -63,7 +63,7 @@ const settings = {
     clean: '/build',
 
     //compress files
-    compress_Css:'expanded', //'compressed', 'nested', 'expanded'
+    compress_Css: 'expanded', //'compressed', 'nested', 'expanded'
 
     // browser sync settings
     browser_sync: 'app/**/*.*',
@@ -78,14 +78,14 @@ const settings = {
 gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
     return gulp.src(settings.src.style)
         .pipe(sass(
-            {outputStyle: settings.compress_Css}
+            { outputStyle: settings.compress_Css }
         ))
-        .pipe(sourcemaps.write({includeContent: false}))
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(autoprefixer({browsers: ['last 4 version', '> 1%'], grid: true}))
+        .pipe(sourcemaps.write({ includeContent: false }))
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(autoprefixer({ browsers: ['last 4 version', '> 1%'], grid: true }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(settings.build.css))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 //move html and integrate SVG
 gulp.task('html', function () {
@@ -93,35 +93,35 @@ gulp.task('html', function () {
         .pipe(rigger())
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest(settings.build.html))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 //move css
 gulp.task('css', function () {
     gulp.src(settings.src.cleanCss)
         .pipe(gulp.dest(settings.build.cleanCss))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 //move js
 gulp.task('js', function () {
     gulp.src(settings.src.js)
         .pipe(uglify())
         .pipe(gulp.dest(settings.build.js))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 //minify json
 gulp.task('json', function () {
     gulp.src(settings.src.json)
         .pipe(jsonminify())
         .pipe(gulp.dest(settings.build.json))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 // minify images
 gulp.task('imagemin', function () {
     gulp.src(settings.src.img)
         .pipe(imagemin([
-            imagemin.gifsicle({interlaced: true}),
-            imagemin.jpegtran({progressive: true}),
-            imagemin.optipng({optimizationLevel: 5})
+            imagemin.gifsicle({ interlaced: true }),
+            imagemin.jpegtran({ progressive: true }),
+            imagemin.optipng({ optimizationLevel: 5 })
         ]))
         .pipe(gulp.dest(settings.build.img))
 });
@@ -137,9 +137,9 @@ gulp.task('sprite', function () {
         var imgStream = spriteData.img
             .pipe(buffer())
             .pipe(imagemin([
-                imagemin.gifsicle({interlaced: true}),
-                imagemin.jpegtran({progressive: true}),
-                imagemin.optipng({optimizationLevel: 5})
+                imagemin.gifsicle({ interlaced: true }),
+                imagemin.jpegtran({ progressive: true }),
+                imagemin.optipng({ optimizationLevel: 5 })
             ]))
             .pipe(gulp.dest(settings.build.img));
         var cssStream = spriteData.css
@@ -150,14 +150,14 @@ gulp.task('sprite', function () {
     if (settings.isSprite_VECTOR) {
         return gulp.src(settings.src.sprite_svg)
             .pipe(svgSprite({
-                    selector: "sp-svg-%f",
-                    svg: {
-                        sprite: "sprite.svg"
-                    },
-                    svgPath: "%f",
-                    cssFile: "svg_sprite.css",
-                    common: "sprite-svg"
-                }
+                selector: "sp-svg-%f",
+                svg: {
+                    sprite: "sprite.svg"
+                },
+                svgPath: "%f",
+                cssFile: "svg_sprite.css",
+                common: "sprite-svg"
+            }
             ))
             .pipe(gulp.dest(settings.build.img));
     }
@@ -166,27 +166,27 @@ gulp.task('sprite', function () {
 gulp.task('assets', function () {
     gulp.src(settings.src.assets)
         .pipe(imagemin([
-            imagemin.gifsicle({interlaced: true}),
-            imagemin.jpegtran({progressive: true}),
-            imagemin.optipng({optimizationLevel: 5})
+            imagemin.gifsicle({ interlaced: true }),
+            imagemin.jpegtran({ progressive: true }),
+            imagemin.optipng({ optimizationLevel: 5 })
         ]))
         .pipe(gulp.dest(settings.build.assets))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 gulp.task('favicons', function () {
     gulp.src(settings.src.favicons)
         .pipe(gulp.dest(settings.build.favicons))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 gulp.task('ico', function () {
     gulp.src(settings.src.ico)
         .pipe(gulp.dest(settings.build.ico))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 gulp.task('fonts', function () {
     gulp.src(settings.src.fonts)
         .pipe(gulp.dest(settings.build.fonts))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 // first build
 gulp.task('build', [
