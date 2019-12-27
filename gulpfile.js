@@ -1,21 +1,22 @@
 "use strict"
-const gulp = require('gulp');
-const watch = require('gulp-watch');
-const rigger = require('gulp-rigger');
+'use strict';
 
-// compile sass plugins
-const sass = require('gulp-sass');
+const gulp = require('gulp');
+
+// sass
+var sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
+sass.compiler = require('node-sass');
 
-// browser sync
-const browserSync = require('browser-sync').create();
-const reload = browserSync.reload;
-
-// svg injector
+// html injector html, svg
+const rigger = require('gulp-rigger');
 const injectSvg = require('gulp-inject-svg');
-// settings must be absolute
 const injectSvgOptions = { base: '/app/' };
+
+// js, json min
+const uglify = require('gulp-uglify');
+const jsonminify = require('gulp-jsonminify');
 
 // image min
 const imagemin = require('gulp-imagemin');
@@ -25,11 +26,6 @@ const spritesmith = require('gulp.spritesmith');
 const merge = require('merge-stream');
 const buffer = require('vinyl-buffer');
 const svgSprite = require("gulp-svg-sprites");
-
-// js, json min
-const uglify = require('gulp-uglify');
-const jsonminify = require('gulp-jsonminify');
-
 
 const settings = {
     build: { //prod
@@ -74,78 +70,83 @@ const settings = {
     isSprite_VECTOR: false,
 };
 
-// compile  scss
-gulp.task('sass', settings.isSprite ? ['sprite'] : [], function () {
-    return gulp.src(settings.src.style)
+// compile  sass into css
+function scss() {
+    return gulp
+        .src(settings.src.style)
         .pipe(sass(
             { outputStyle: settings.compress_Css }
         ))
         .pipe(sourcemaps.write({ includeContent: false }))
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(autoprefixer({ browsers: ['last 4 version', '> 1%'], grid: true }))
+        .pipe(autoprefixer({ grid: true }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(settings.build.css))
-        .pipe(reload({ stream: true }));
-});
+        .pipe(gulp.dest(settings.build.css));
+    // .pipe(reload({ stream: true }));
+}
 //move html and integrate SVG
-gulp.task('html', function () {
-    gulp.src(settings.src.html)
+function html() {
+    return gulp.src(settings.src.html)
         .pipe(rigger())
         .pipe(injectSvg(injectSvgOptions))
-        .pipe(gulp.dest(settings.build.html))
-        .pipe(reload({ stream: true }));
-});
+        .pipe(gulp.dest(settings.build.html));
+    // .pipe(reload({ stream: true }));
+
+}
 //move css
-gulp.task('css', function () {
-    gulp.src(settings.src.cleanCss)
-        .pipe(gulp.dest(settings.build.cleanCss))
-        .pipe(reload({ stream: true }));
-});
+function cleanCss() {
+    return gulp.src(settings.src.cleanCss)
+        .pipe(gulp.dest(settings.build.cleanCss));
+    // .pipe(reload({ stream: true }));
+}
+
 //move js
-gulp.task('js', function () {
-    gulp.src(settings.src.js)
+function jsMinify() {
+    return gulp.src(settings.src.js)
         .pipe(uglify())
-        .pipe(gulp.dest(settings.build.js))
-        .pipe(reload({ stream: true }));
-});
+        .pipe(gulp.dest(settings.build.js));
+    // .pipe(reload({ stream: true }));
+}
 //minify json
-gulp.task('json', function () {
-    gulp.src(settings.src.json)
+function jsonMinify() {
+    return gulp.src(settings.src.json)
         .pipe(jsonminify())
-        .pipe(gulp.dest(settings.build.json))
-        .pipe(reload({ stream: true }));
-});
+        .pipe(gulp.dest(settings.build.json));
+    // .pipe(reload({ stream: true }));
+}
 // minify images
-gulp.task('imagemin', function () {
-    gulp.src(settings.src.img)
+function imageMinify() {
+    return gulp.src(settings.src.img)
         .pipe(imagemin([
             imagemin.gifsicle({ interlaced: true }),
             imagemin.jpegtran({ progressive: true }),
             imagemin.optipng({ optimizationLevel: 5 })
-        ]))
-        .pipe(gulp.dest(settings.build.img))
-});
+        ]));
+    // .pipe(gulp.dest(settings.build.img))
+}
+
 //sprites generator
-gulp.task('sprite', function () {
+function imageRasterSprites() {
     // raster (PNG, JPG) images
     if (settings.isSprite_RASTER) {
-        var spriteData = gulp.src(settings.src.sprite_png)
+        let spriteData = gulp.src(settings.src.sprite_png)
             .pipe(spritesmith({
                 imgName: settings.build.sprite_image_name,
                 cssName: 'sprite.css'
             }));
-        var imgStream = spriteData.img
-            .pipe(buffer())
+            let imgStream = spriteData.img
             .pipe(imagemin([
                 imagemin.gifsicle({ interlaced: true }),
                 imagemin.jpegtran({ progressive: true }),
                 imagemin.optipng({ optimizationLevel: 5 })
-            ]))
-            .pipe(gulp.dest(settings.build.img));
-        var cssStream = spriteData.css
-            .pipe(gulp.dest(settings.build.sprite_css));
+            ]));
+            // .pipe(gulp.dest(settings.build.img));
+            let cssStream = spriteData.css;
+            // .pipe(gulp.dest(settings.build.sprite_css));
         return merge(imgStream, cssStream);
     }
+}
+function imageVectorSprites() {
     // vector images SVG
     if (settings.isSprite_VECTOR) {
         return gulp.src(settings.src.sprite_svg)
@@ -158,103 +159,70 @@ gulp.task('sprite', function () {
                 cssFile: "svg_sprite.css",
                 common: "sprite-svg"
             }
-            ))
-            .pipe(gulp.dest(settings.build.img));
+            ));
+            // .pipe(gulp.dest(settings.build.img));
     }
-});
+}
+}
 // move addititional files
-gulp.task('assets', function () {
-    gulp.src(settings.src.assets)
+function assets() {
+    return gulp.src(settings.src.assets)
         .pipe(imagemin([
             imagemin.gifsicle({ interlaced: true }),
             imagemin.jpegtran({ progressive: true }),
             imagemin.optipng({ optimizationLevel: 5 })
         ]))
-        .pipe(gulp.dest(settings.build.assets))
-        .pipe(reload({ stream: true }));
-});
-gulp.task('favicons', function () {
-    gulp.src(settings.src.favicons)
-        .pipe(gulp.dest(settings.build.favicons))
-        .pipe(reload({ stream: true }));
-});
-gulp.task('ico', function () {
-    gulp.src(settings.src.ico)
-        .pipe(gulp.dest(settings.build.ico))
-        .pipe(reload({ stream: true }));
-});
-gulp.task('fonts', function () {
-    gulp.src(settings.src.fonts)
-        .pipe(gulp.dest(settings.build.fonts))
-        .pipe(reload({ stream: true }));
-});
-// first build
-gulp.task('build', [
-    'html',
-    'css',
-    'js',
-    'sprite',
-    'sass',
-    'imagemin',
-    'assets',
-    'favicons',
-    'ico',
-    'fonts',
-    'json',
-]);
-// file watchers
-gulp.task('watch', function () {
-    watch(settings.src.html, function () {
-        gulp.start('html');
-    });
-    watch(settings.src.cleanCss, function () {
-        gulp.start('css');
-    });
-    watch(settings.src.sprite_png, function (event, cb) {
-        gulp.start('sprite');
-    });
-    watch(settings.src.style, function (event, cb) {
-        gulp.start('sass');
-    });
-    watch(settings.src.js, function (event, cb) {
-        gulp.start('js');
-    });
-    watch(settings.src.img, function (event, cb) {
-        gulp.start('imagemin');
-    });
-    watch(settings.src.assets, function (event, cb) {
-        gulp.start('assets');
-    });
-    watch(settings.src.favicons, function (event, cb) {
-        gulp.start('favicons');
-    });
-    watch(settings.src.ico, function (event, cb) {
-        gulp.start('ico');
-    });
-    watch(settings.src.fonts, function (event, cb) {
-        gulp.start('fonts');
-    });
-    watch(settings.src.json, function (event, cb) {
-        gulp.start('json');
-    });
-});
-// browser-sync
-gulp.task('browser-sync', function () {
-    if (!settings.isProxy) {
-        browserSync.init(settings.browser_sync, {
-            server: {
-                baseDir: "build/"
-            }
-        });
-    } else {
-        // if proxy already have server
-        browserSync.init({
-            proxy: {
-                target: settings.isProxy_path,
-            }
-        });
-    }
+        .pipe(gulp.dest(settings.build.assets));
+    // .pipe(reload({ stream: true }));
+}
 
-});
-// default build
-gulp.task('default', ['build', 'watch', 'browser-sync']);
+// favicons folder
+function favicons() {
+    return gulp.src(settings.src.favicons)
+        .pipe(gulp.dest(settings.build.favicons));
+    // .pipe(reload({ stream: true }));
+}
+
+// ico move
+function ico() {
+    return gulp.src(settings.src.ico)
+        .pipe(gulp.dest(settings.build.ico));
+    // .pipe(reload({ stream: true }));
+}
+
+// folder fonts move
+function fonts() {
+    return gulp.src(settings.src.fonts)
+        .pipe(gulp.dest(settings.build.fonts));
+    // .pipe(reload({ stream: true }));
+}
+
+// function watch() {
+//     sass();
+// }
+exports.scss = scss;
+exports.html = html;
+exports.cleanCss = cleanCss;
+exports.jsMinify = jsMinify;
+exports.jsonMinify = jsonMinify;
+exports.imageMinify = imageMinify;
+exports.imageSprites = imageSprites;
+exports.assets = assets;
+exports.favicons = favicons;
+exports.ico = ico;
+exports.fonts = fonts;
+// function watch() {
+//     scss();
+//     html();
+//     cleanCss();
+//     jsMinify();
+    // jsonMinify();
+    // imageMinify();
+    // imageSprites();
+    // assets();
+    // favicons();
+    // ico();
+    // fonts();
+    // gulp.watch(paths.styles.src, style, server);
+// }
+// exports.watch = watch;
