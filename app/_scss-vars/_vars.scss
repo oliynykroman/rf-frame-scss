@@ -4,55 +4,65 @@ $white: #fff;
 $black: #000;
 
 :root {
-  --red: #ff1e2d;
+  --red : #ff1e2d;
   --blue: #0047ff;
 }
 
 $vars: (
-        red: #ff1e2d,
-        blue: #0047ff,
+  red: #ff1e2d,
+  blue: #0047ff,
 );
 
 /*columns*/
-$column_spacer: 15px;
-$column_spacer-left: $column_spacer;
+$column_spacer      : 15px;
+$column_spacer-left : $column_spacer;
 $column_spacer-right: $column_spacer;
-$column_counter: 12;
-$cont_width: 95%;
-$max_cont_width: 1170px;
+$column_counter     : 12;
+$cont_width         : 95%;
+$max_cont_width     : 1170px;
 
 $globalPaddingLeft: 60px;
-$globalBigLeft: 75px;
+$globalBigLeft    : 75px;
+
+
+// scrollbars
+
+/*shadows*/
+/*$shadow    : 0.5px 0.866px 21px 0px rgba(0, 0, 0, 0.14);*/
+/*$txt_shadow:1px 1px 1px rgba(255, 255, 255, 1);*/
 
 /*grid sizes*/
 //you can use in media queries specyfic breakpoint
 //@media screen and (min-width: #{map_get($user-breakpoints, extra-small)}){}
-$user-breakpoints: (
-        extra-small : 540px,
-        small : 769px,
-        medium : 960px,
-        large : 1200px
-);
+$user-breakpoints             : (
+  extra-small : 540px,
+  small : 769px,
+  medium : 960px,
+  large : 1200px
+  );
 
-/*shadows*/
-/*$shadow: 0.5px 0.866px 21px 0px rgba(0, 0, 0, 0.14);*/
-/*$txt_shadow:1px 1px 1px rgba(255, 255, 255, 1);*/
+
+
 
 /*placeholder color mixin*/
 @mixin palceholders($placeholder-color) {
   ::-webkit-input-placeholder {
     color: $placeholder-color !important;
   }
+
   :-moz-placeholder {
     color: $placeholder-color !important;
   }
+
   ::-moz-placeholder {
     color: $placeholder-color !important;
   }
+
   :-ms-input-placeholder {
     color: $placeholder-color !important;
   }
 }
+
 /*css varable generator + fallback*/
 @mixin var($property, $varName) {
   #{$property}: map-get($vars, $varName);
