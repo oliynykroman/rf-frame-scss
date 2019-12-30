@@ -23,12 +23,12 @@ All configs combined in settings.js
 3. Import "../_scss-vars/grid"; to main SCSS file
 
     3.1 Set number of columns and generate EXAMPLE grid css  (this code prepare grid like in desktop bootstrap):
-        ```
+    ```
         @mixin exampleGrid($columns:28); //default 28 (12 columns for normal browsers, 28 for ie (older specs don't have gaps))
-        ```
+    ```
          
     3.2 Define MAIN responsive grid for all browsers (this code prepare grid like in desktop bootstrap):
-        ```
+    ```
         @mixin responsiveGrid(
         $screenSize:1280px, // define @media min-width
         $gridGap:30px, // set grid gaps for normal grid
@@ -36,7 +36,7 @@ All configs combined in settings.js
         $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr, //define legacy grid for ie 11 and browsers without repeat option support
         $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") //define grid for IE (old standart)
         )
-        ```
+    ```
 
 
 ## Flex grid + settings
