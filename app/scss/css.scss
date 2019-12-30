@@ -37,7 +37,7 @@ body {
 .banner {
   @include grid-column(3, 8, 5, 14);
   @include grid-row(2, 3, 3, 4);
-  // background-color: green;
+  background-color: green; 
 }
 
 .news {

@@ -1,4 +1,7 @@
 "use strict"
+import { settings } from './settings.js';
+
+
 
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
@@ -32,49 +35,6 @@ const svgSprite = require("gulp-svg-sprites");
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
-const settings = {
-    build: { //prod
-        html: 'build/',
-        js: 'build/js/',
-        css: 'build/css/',
-        cleanCss: 'build/css/',
-        sprite_css: 'app/_scss-vars/',
-        sprite_image_name: '../images/sprite.png',
-        img: 'build/images/',
-        fonts: 'build/fonts/',
-        json: 'build/json/',
-        assets: 'build/assets/',
-        favicons: 'build/favicons/',
-        ico: 'build/',
-    },
-    src: { //develop
-        html: ['app/*.html'],
-        js: 'app/js/*.js',
-        style: ['app/scss/*.scss'],
-        cleanCss: ['app/css/*.css'],
-        img: 'app/images/*.*',
-        sprite_png: 'app/images/sprites/**/*.{png,jpg}',
-        sprite_svg: 'app/images/sprites/**/*.svg',
-        fonts: 'app/fonts/**/*.*',
-        json: 'app/json/*.json',
-        assets: 'app/assets/**/*.*',
-        favicons: 'app/favicons/**/*.*',
-        ico: 'app/*.ico',
-    },
-    clean: '/build',
-
-    //compress files
-    compress_Css: 'expanded', //'compressed', 'nested', 'expanded'
-
-    // browser sync settings
-    browser_sync: 'app/**/*.*',
-    isProxy: false,//used when have local server instead browsersunc server
-    isProxy_path: 'http://your full URL', //when local server used instead browsersync
-    // sprite settings
-    isSprite_RASTER: false,
-    isSprite_VECTOR: false,
-};
-
 // compile  sass into css
 function scss() {
     return gulp.src(settings.src.style)
@@ -93,7 +53,7 @@ function scss() {
         .pipe(reload({ stream: true }));
 }
 
-//move css
+//move css 
 function cleanCss() {
     return gulp.src(settings.src.cleanCss)
         .pipe(plumber())
@@ -224,8 +184,19 @@ function fonts() {
         .pipe(reload({ stream: true }));
 }
 
-// browser-sync
-function browser_sync(cb) {
+function watch() {
+    gulp.watch(settings.src.style, scss);
+    gulp.watch(settings.src.cleanCss, cleanCss);
+    gulp.watch(settings.src.html, html);
+    gulp.watch(settings.src.js, jsMinify);
+    gulp.watch(settings.src.json, jsonMinify);
+    gulp.watch(settings.src.img, imageMinify);
+    gulp.watch(settings.src.sprite_png, imageRasterSprites);
+    gulp.watch(settings.src.sprite_svg, imageVectorSprites);
+    gulp.watch(settings.src.assets, assets);
+    gulp.watch(settings.src.favicons, favicons);
+    gulp.watch(settings.src.ico, ico);
+    gulp.watch(settings.src.fonts, fonts);
     if (!settings.isProxy) {
         return browserSync.init(settings.browser_sync, {
             server: {
@@ -240,28 +211,5 @@ function browser_sync(cb) {
             }
         });
     }
-    cb();
 }
-
-function watch() {
-    gulp.watch(settings.src.style, scss);
-    gulp.watch(settings.src.cleanCss, cleanCss);
-    gulp.watch(settings.src.html, html);
-    gulp.watch(settings.src.js, jsMinify);
-    gulp.watch(settings.src.json, jsonMinify);
-    gulp.watch(settings.src.img, imageMinify);
-    gulp.watch(settings.src.sprite_png, imageRasterSprites);
-    gulp.watch(settings.src.sprite_svg, imageVectorSprites);
-    gulp.watch(settings.src.assets, assets);
-    gulp.watch(settings.src.favicons, favicons);
-    gulp.watch(settings.src.ico, ico);
-    gulp.watch(settings.src.fonts, fonts);
-}
-// exports.build = gulp.parallel(scss, cleanCss, html, jsMinify, jsonMinify, imageMinify, imageRasterSprites, imageVectorSprites, assets, favicons, ico, fonts);
-// exports.default = function () {
-//     watch('app/**/*.*', { events: 'all' }, function (cb) {
-//         console.log('fdsfdsf');
-//         cb();
-//     })
-// }
-gulp.task('default', gulp.series(scss, cleanCss, html, jsMinify, jsonMinify, imageMinify, imageRasterSprites, imageVectorSprites, assets, favicons, ico, fonts, watch, browser_sync));
+gulp.task('default', gulp.series(scss, cleanCss, html, jsMinify, jsonMinify, imageMinify, imageRasterSprites, imageVectorSprites, assets, favicons, ico, fonts, watch));
