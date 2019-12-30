@@ -1,8 +1,7 @@
 
 let settings = {
-    /** 
-    * property contain object with settings where should be placed builded files
-    */
+
+    //property contain object with settings where should be placed builded files
     build: {
         html: 'build/',
         js: 'build/js/',
@@ -17,9 +16,8 @@ let settings = {
         favicons: 'build/favicons/',
         ico: 'build/',
     },
-    /** 
-    * property contain object for start configuration
-    */
+
+    //property contain object for start configuration
     src: {
         html: ['app/*.html'],
         js: 'app/js/*.js',
@@ -34,22 +32,18 @@ let settings = {
         favicons: 'app/favicons/**/*.*',
         ico: 'app/*.ico',
     },
-    /** 
-    * clean bulded folder
-    */
+
+    //clean bulded folder
     clean: '/build',
-    /** 
-     * build raster or/and vectro sprites, in main scss should be uncommented sprite css
-    */
+
+    //build raster or/and vectro sprites, in main scss should be uncommented sprite css
     isSprite_RASTER: false,
     isSprite_VECTOR: false,
-    /** 
-    * scss compilation settings
-    */
+
+    //scss compilation settings
     compress_Css: 'expanded', //'compressed', 'nested', 'expanded'
-    /** 
-    *  browser sync settings
-    */
+
+    //browser sync settings
     browser_sync: 'app/**/*.*',
     isProxy: false,//used when have local server instead browsersunc server
     isProxy_path: 'http://your full URL', //when local server used instead browsersync
