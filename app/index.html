@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,17 +8,28 @@
     <script rel="script" src="js/main.min.js" type="text/javascript"></script>
 
 </head>
+
 <body>
-<main class="grid">
-    <article class="content">this is main content</article>
-    <!--<header class="header">this is hader</header>-->
-    //= template/head.html
-    <nav class="menu">main menu</nav>
-    <section class="banner">this is banner</section>
-    <section class="news">this is news</section>
-    <footer class="footer">this is footer</footer>
-</main>
-<script rel="script" src="js/example-grid.js" type="text/javascript"></script>
+    <main class="grid">
+        <article class="content">this is main content</article>
+        <!--<header class="header">this is hader</header>-->
+        //= template/head.html
+        <nav class="menu">main menu</nav>
+        <section class="banner">this is banner</section>
+        <section class="news">this is news</section>
+        <footer class="footer">this is footer</footer>
+    </main>
+
+    <!-- grid for IE settings -->
+    <script>
+        var gridSettings = {
+            columns: 14,
+            gaps: true,
+            customClass: 'box'
+        }
+    </script>
+    <script rel="script" src="js/example-grid.min.js" type="text/javascript"></script>
+
 </body>
 
 </html>

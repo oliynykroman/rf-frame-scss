@@ -44,7 +44,7 @@ function scss() {
         ))
         .pipe(sourcemaps.write({ includeContent: false }))
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(autoprefixer({ grid: true }))
+        .pipe(autoprefixer({ grid: settings.legacyGrid }))
         .pipe(sourcemaps.write('.'))
         .pipe(rename({
             suffix: '.min'

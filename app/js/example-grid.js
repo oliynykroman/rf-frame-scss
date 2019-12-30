@@ -1,10 +1,8 @@
-console.log('it works');
 
 // use old standart because need generate for IE10
-var body = document.body;
-
 
 function generateGrid(normalGridColumnsCount, gridGaps, className) {
+    var body = document.body;
     var exampleGridContainer = document.createElement('div');
     exampleGridContainer.className += 'example-grid' + (className === undefined ? '' : ' ' + className);
     body.appendChild(exampleGridContainer);
@@ -31,4 +29,4 @@ function box() {
     return boxGrid;
 }
 
-generateGrid(14, true);
+generateGrid(gridSettings.columns, gridSettings.gaps, gridSettings.customClass);
