@@ -38,8 +38,8 @@ All configs combined in settings.js
         )
     ```
 
-
-## Flex grid + settings
+ 
+## Flex grid + settings 
 1.  Import "../_scss-vars/flex"; to main SCSS file  
 2.  In /_scss-vars/_vars.scss set:
     ```
