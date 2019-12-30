@@ -1,6 +1,9 @@
 
 let settings = {
-    build: { //prod
+    /** 
+    * property contain object with settings where should be placed builded files
+    */
+    build: {
         html: 'build/',
         js: 'build/js/',
         css: 'build/css/',
@@ -14,7 +17,10 @@ let settings = {
         favicons: 'build/favicons/',
         ico: 'build/',
     },
-    src: { //develop
+    /** 
+    * property contain object for start configuration
+    */
+    src: {
         html: ['app/*.html'],
         js: 'app/js/*.js',
         style: ['app/scss/*.scss'],
@@ -28,18 +34,26 @@ let settings = {
         favicons: 'app/favicons/**/*.*',
         ico: 'app/*.ico',
     },
+    /** 
+    * clean bulded folder
+    */
     clean: '/build',
-
-    //compress files
+    /** 
+     * build raster or/and vectro sprites, in main scss should be uncommented sprite css
+    */
+    isSprite_RASTER: false,
+    isSprite_VECTOR: false,
+    /** 
+    * scss compilation settings
+    */
     compress_Css: 'expanded', //'compressed', 'nested', 'expanded'
-
-    // browser sync settings
+    /** 
+    *  browser sync settings
+    */
     browser_sync: 'app/**/*.*',
     isProxy: false,//used when have local server instead browsersunc server
     isProxy_path: 'http://your full URL', //when local server used instead browsersync
-    // sprite settings
-    isSprite_RASTER: false,
-    isSprite_VECTOR: false,
+
 }
 
 export { settings };

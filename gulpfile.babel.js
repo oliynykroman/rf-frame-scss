@@ -35,7 +35,7 @@ const svgSprite = require("gulp-svg-sprites");
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
-// compile  sass into css
+// compile scss into css
 function scss() {
     return gulp.src(settings.src.style)
         .pipe(plumber())
