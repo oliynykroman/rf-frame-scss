@@ -37,7 +37,7 @@ body {
 .banner {
   @include grid-column(3, 8, 5, 14);
   @include grid-row(2, 3, 3, 4);
-  background-color: green;
+  background-color: green; 
 }
 
 .news {
@@ -46,17 +46,17 @@ body {
   background-color: gray;
 }
 
-.content {
+.content { 
   @include grid-column(3, 10, 5, 18);
   @include grid-row(4, 6, 5, 7);
   background-color: violet;
 }
-
+  
 .footer {
   @include grid-column(1, 13, 1, 24);
   @include grid-row(6, 7, 7, 8);
   background-color: black;
-  color: white;
+  // color: white; 
 }
 
 @media screen and (min-width: 375px) {
