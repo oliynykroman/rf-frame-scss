@@ -13,6 +13,19 @@
 //@import "../_scss-vars/sprite";
 
 @include exampleGrid();
+@include responsiveGrid(
+  375px, 
+  20px, 
+  1fr repeat(12, minmax(8px, 10%)) 1fr, 
+  "1fr (20px minmax(8px, 10%))[12] 20px 1fr",  
+  1fr repeat(12, minmax(8px, 10%)) 1fr); 
+@include responsiveGrid(
+  1023px,
+  20px,
+  1fr repeat(12, minmax(0, 60px)) 1fr,
+  "1fr (20px minmax(0px, 60px))[12] 60px 1fr",
+  1fr repeat(12, minmax(0px, 60px)) 1fr
+); 
 @include responsiveGrid(); 
 
 body {

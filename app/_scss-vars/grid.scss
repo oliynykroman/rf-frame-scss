@@ -51,7 +51,6 @@
   }
 }
 
-
 @mixin responsiveGrid(
   $screenSize:1280px,
   $gridGap:30px,
@@ -78,43 +77,3 @@
     }
   }
 }
-
-// @media screen and (min-width: 375px) {
-//   .example-grid {
-//     .normal-grid {
-//       grid-column-gap      : 20px;
-//       grid-template-columns: 1fr repeat(12, minmax(8px, 10%)) 1fr;
-//     }
-
-//     .legacy-grid {
-//       grid-template-columns: 1fr repeat(12, 20px minmax(8px, 10%)) 20px 1fr;
-//     }
-//   }
-
-//   .grid {
-//     grid-column-gap          : 20px;
-//     $from-smartphone-portrait: unquote("1fr (20px minmax(8px, 10%))[12] 20px 1fr");
-//     -ms-grid-columns         : $from-smartphone-portrait;
-//     grid-template-columns    : 1fr repeat(12, minmax(8px, 10%)) 1fr;
-//   }
-// }
-
-// @media screen and (min-width: 1023px) {
-//   .example-grid {
-//     .normal-grid {
-//       grid-column-gap      : 20px;
-//       grid-template-columns: 1fr repeat(12, minmax(0, 60px)) 1fr;
-//     }
-
-//     .legacy-grid {
-//       grid-template-columns: 1fr repeat(12, 20px minmax(0, 60px)) 20px 1fr;
-//     }
-//   }
-
-//   .grid {
-//     grid-column-gap          : 20px;
-//     $from-smartphone-portrait: unquote("1fr (20px minmax(0px, 60px))[12] 60px 1fr");
-//     -ms-grid-columns         : $from-smartphone-portrait;
-//     grid-template-columns    : 1fr repeat(12, minmax(0px, 60px)) 1fr;
-//   }
-// }
