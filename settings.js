@@ -41,7 +41,8 @@ let settings = {
     isSprite_VECTOR: false,
 
     //scss compilation settings
-    compress_Css: 'expanded', //'compressed', 'nested', 'expanded'
+    compress_Css: 'expanded', //'compressed', 'nested', 'expanded',
+    legacyGrid: true,
 
     //browser sync settings
     browser_sync: 'app/**/*.*',

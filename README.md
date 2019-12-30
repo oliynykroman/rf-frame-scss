@@ -1,6 +1,37 @@
 # rf-frame-scss
 
-new framework version. grid - flex, updated mixins. markup test -backdrop.js
+Gulp 4 configuration file. 
+
+supportes grid generation for older older versions IE(11, 10), 
+updated mixins. 
+Added backstopJS for markup regressive testing
+
+# how to
+All configs combined in settings.js
+
+# Grid mixins + settings
+1. Set to true 'legacyGrid' property
+2. Add "js/example-grid.min.js" to main index.html
+      <script>
+        var gridSettings = {
+            columns: 14,
+            gaps: true,
+            customClass: 'box'
+        }
+    </script>
+3. Import "../_scss-vars/grid"; to main SCSS file
+
+    3.1 Set number of columns and generate EXAMPLE grid css  (this code prepare grid like in desktop bootstrap):
+        @mixin exampleGrid($columns:28); //default 28 (12 columns for normal browsers, 28 for ie (older specs don't have gaps))
+         
+    3.2 Define MAIN responsive grid for all browsers (this code prepare grid like in desktop bootstrap):
+        @mixin responsiveGrid(
+        $screenSize:1280px, // define @media min-width
+        $gridGap:30px, // set grid gaps for normal grid
+        $normalGrid: 1fr repeat(12, minmax(0, 70px)) 1fr, // define grid for normal browser (new standart)
+        $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr, //define legacy grid for ie 11 and browsers without repeat option support
+        $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") //define grid for IE old standart
+        )
 
 start: gulp
 
