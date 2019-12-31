@@ -50,6 +50,12 @@ All configs combined in settings.js
     $cont_width         : 95%; //grid full width
     $max_cont_width     : 1170px; //max-width
     ```
+
+## Image sprites
+1. Set  next properties in settings.js to true:
+isSprite_RASTER: true, // set true if you need only raster sprites
+isSprite_VECTOR: false  // set true if you need only vector sprites
+can be set both to true
 start: gulp
 
 For automate markup regressive testing is used backstop.js

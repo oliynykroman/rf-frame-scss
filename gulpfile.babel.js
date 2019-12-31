@@ -101,7 +101,8 @@ function imageMinify() {
             imagemin.gifsicle({ interlaced: true }),
             imagemin.jpegtran({ progressive: true }),
             imagemin.optipng({ optimizationLevel: 5 })
-        ]));
+        ]))
+        .pipe(gulp.dest(settings.build.img));
 }
 
 //sprites generator
@@ -110,18 +111,14 @@ function imageRasterSprites(cb) {
     if (settings.isSprite_RASTER) {
         let spriteData = gulp.src(settings.src.sprite_png)
             .pipe(spritesmith({
-                imgName: settings.build.sprite_image_name,
-                cssName: 'sprite.css'
+                imgName: 'sprite.png',
+                cssName: '_sprite.scss',
+                padding: 5
             }));
         let imgStream = spriteData.img
-            .pipe(imagemin([
-                imagemin.gifsicle({ interlaced: true }),
-                imagemin.jpegtran({ progressive: true }),
-                imagemin.optipng({ optimizationLevel: 5 })
-            ]))
             .pipe(gulp.dest(settings.build.img))
         let cssStream = spriteData.css
-            .pipe(gulp.dest(settings.build.sprite_css));
+            .pipe(gulp.dest(settings.src.style));
         return merge(imgStream, cssStream);
     }
     cb();
