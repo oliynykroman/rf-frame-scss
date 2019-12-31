@@ -51,9 +51,7 @@
   }
 }
 
-
-@mixin responsiveGrid(
-  $screenSize:1280px,
+@mixin responsiveGrid($screenSize:1280px,
   $gridGap:30px,
   $normalGrid: 1fr repeat(12, minmax(0, 70px)) 1fr,
   $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr,
@@ -79,42 +77,99 @@
   }
 }
 
-// @media screen and (min-width: 375px) {
-//   .example-grid {
-//     .normal-grid {
-//       grid-column-gap      : 20px;
-//       grid-template-columns: 1fr repeat(12, minmax(8px, 10%)) 1fr;
-//     }
 
-//     .legacy-grid {
-//       grid-template-columns: 1fr repeat(12, 20px minmax(8px, 10%)) 20px 1fr;
-//     }
-//   }
+@function grid-repeat($stuff, $repeat, $gap) {
+  $list: ();
 
-//   .grid {
-//     grid-column-gap          : 20px;
-//     $from-smartphone-portrait: unquote("1fr (20px minmax(8px, 10%))[12] 20px 1fr");
-//     -ms-grid-columns         : $from-smartphone-portrait;
-//     grid-template-columns    : 1fr repeat(12, minmax(8px, 10%)) 1fr;
-//   }
-// }
+  @for $i from 1 through $repeat {
+    @if $gap {
+      $list: append($list, $stuff $gap, space);
+    }
 
-// @media screen and (min-width: 1023px) {
-//   .example-grid {
-//     .normal-grid {
-//       grid-column-gap      : 20px;
-//       grid-template-columns: 1fr repeat(12, minmax(0, 60px)) 1fr;
-//     }
+    @else {
+      $list: append($list, $stuff, space);
+    }
+  }
 
-//     .legacy-grid {
-//       grid-template-columns: 1fr repeat(12, 20px minmax(0, 60px)) 20px 1fr;
-//     }
-//   }
+  @return $list;
+}
 
-//   .grid {
-//     grid-column-gap          : 20px;
-//     $from-smartphone-portrait: unquote("1fr (20px minmax(0px, 60px))[12] 60px 1fr");
-//     -ms-grid-columns         : $from-smartphone-portrait;
-//     grid-template-columns    : 1fr repeat(12, minmax(0px, 60px)) 1fr;
-//   }
-// }
+@mixin grid-template-columns($column-repeat-exp:1fr, $column-repeat-count:1, $column-gap:false) {
+  @if $column-gap !=false {
+    grid-column-gap      : $column-gap;
+    grid-template-columns: grid-repeat($column-repeat-exp, $column-repeat-count, false);
+    -ms-grid-columns     : grid-repeat($column-repeat-exp, $column-repeat-count, $column-gap);
+  }
+
+  @else {
+    grid-template-columns: grid-repeat($column-repeat-exp, $column-repeat-count, false);
+    -ms-grid-columns     : grid-repeat($column-repeat-exp, $column-repeat-count, $column-gap);
+  }
+}
+
+@mixin grid-template-rows($row-repeat-exp:1fr, $row-repeat-count:1, $row-gap:false) {
+  @if $row-gap !=false {
+    grid-row-gap      : $row-gap;
+    grid-template-rows: grid-repeat($row-repeat-exp, $row-repeat-count, false);
+    -ms-grid-rows     : grid-repeat($row-repeat-exp, $row-repeat-count, $row-gap);
+  }
+
+  @else {
+    grid-template-rows: grid-repeat($row-repeat-exp, $row-repeat-count, false);
+    -ms-grid-rows     : grid-repeat($row-repeat-exp, $row-repeat-count, $row-gap);
+  }
+
+}
+
+@mixin grid-gap($grid-gap) {
+  -webkit-grid-gap: $grid-gap;
+  grid-gap        : $grid-gap;
+}
+
+@mixin column-gap($column-gap) {
+  -webkit-column-gap: $column-gap;
+  column-gap        : $column-gap;
+}
+
+@mixin grid-column($col-start, $col-end, $column-start-ie:false, $column-end-ie:false) {
+  @if $column-start-ie !=false {
+    -ms-grid-column     : $column-start-ie;
+    -ms-grid-column-span: $column-end-ie - $column-start-ie;
+    grid-column         : #{$col-start} / #{$col-end};
+  }
+
+  @else {
+    -ms-grid-column     : $col-start;
+    -ms-grid-column-span: $col-end - $col-start;
+    grid-column         : #{$col-start} / #{$col-end};
+  }
+}
+
+@mixin row-gap($row-gap) {
+  -webkit-row-gap: $row-gap;
+  row-gap        : $row-gap;
+}
+
+@mixin grid-row($row-start, $row-end, $row-start-ie:false, $row-end-ie:false) {
+  @if $row-start-ie !=false {
+    -ms-grid-row     : $row-start-ie;
+    -ms-grid-row-span: $row-end-ie - $row-start-ie;
+    grid-row         : #{$row-start} / #{$row-end};
+  }
+
+  @else {
+    -ms-grid-row     : $row-start;
+    -ms-grid-row-span: $row-end - $row-start;
+    grid-row         : #{$row-start} / #{$row-end};
+  }
+}
+
+@mixin grid-align-self($value) {
+  -ms-grid-row-align: $value;
+  align-self        : $value;
+}
+
+@mixin grid-justify-self($value) {
+  -ms-grid-column-align: $value;
+  justify-self         : $value;
+}
