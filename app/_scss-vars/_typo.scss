@@ -1,4 +1,3 @@
-/* to do */
 /*font family fonts*/
 /*add: .font-face(pf_beausans_probbook, pfbeausanspro_book);*/
 
@@ -73,4 +72,8 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+@mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  font-size: calc(#{$min-font-size}rem + ((100vw - #{$min-vw}rem) / (#{$max-vw} - #{$min-vw})) * (#{$max-font-size} - #{$min-font-size}));
 }

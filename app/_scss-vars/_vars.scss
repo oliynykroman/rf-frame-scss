@@ -24,13 +24,6 @@ $max_cont_width     : 1170px;
 $globalPaddingLeft: 60px;
 $globalBigLeft    : 75px;
 
-
-// scrollbars
-
-/*shadows*/
-/*$shadow    : 0.5px 0.866px 21px 0px rgba(0, 0, 0, 0.14);*/
-/*$txt_shadow:1px 1px 1px rgba(255, 255, 255, 1);*/
-
 /*grid sizes*/
 //you can use in media queries specyfic breakpoint
 //@media screen and (min-width: #{map_get($user-breakpoints, extra-small)}){}
@@ -40,9 +33,6 @@ $user-breakpoints             : (
   medium : 960px,
   large : 1200px
   );
-
-
-
 
 /*placeholder color mixin*/
 @mixin palceholders($placeholder-color) {
