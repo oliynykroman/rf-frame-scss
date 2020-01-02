@@ -50,6 +50,23 @@ All configs combined in settings.js
     $cont_width         : 95%; //grid full width
     $max_cont_width     : 1170px; //max-width
     ```
+
+## Image sprites
+1. Set  next properties in settings.js to true:
+```
+isSprite_RASTER: true, // set true if you need only raster sprites
+isSprite_VECTOR: false  // set true if you need only vector sprites
+sprite_png: path for raster sprites image 
+sprite_svg: path for vector sprites image 
+```
+
+## Fonts:
+Main mixins:
+```
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff ttf svg)
+@mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size)
+```
+
 start: gulp
 
 For automate markup regressive testing is used backstop.js

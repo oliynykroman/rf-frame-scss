@@ -7,8 +7,6 @@ let settings = {
         js: 'build/js/',
         css: 'build/css/',
         cleanCss: 'build/css/',
-        sprite_css: 'app/_scss-vars/',
-        sprite_image_name: '../images/sprite.png',
         img: 'build/images/',
         fonts: 'build/fonts/',
         json: 'build/json/',
@@ -37,7 +35,7 @@ let settings = {
     clean: '/build',
 
     //build raster or/and vectro sprites, in main scss should be uncommented sprite css
-    isSprite_RASTER: false,
+    isSprite_RASTER: true,
     isSprite_VECTOR: false,
 
     //scss compilation settings
