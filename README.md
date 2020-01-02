@@ -53,12 +53,12 @@ All configs combined in settings.js
 
 ## Image sprites
 1. Set  next properties in settings.js to true:
-```
-isSprite_RASTER: true, // set true if you need only raster sprites
-isSprite_VECTOR: false  // set true if you need only vector sprites
-sprite_png: path for raster sprites image 
-sprite_svg: path for vector sprites image 
-```
+    ```
+    isSprite_RASTER: true, // set true if you need only raster sprites
+    isSprite_VECTOR: false  // set true if you need only vector sprites
+    sprite_png: path for raster sprites image 
+    sprite_svg: path for vector sprites image 
+    ```
 
 ## Fonts:
 Main mixins:
