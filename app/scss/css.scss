@@ -5,7 +5,7 @@
 @import "../_scss-vars/grid";
 //@import "../_scss-vars/typo";
 //@import "../_scss-vars/bars";
-//@import "../_scss-vars/flex";
+@import "../_scss-vars/flex";
 
 //if used sprites uncomment this
 //@import "../_scss-vars/sprite";
@@ -70,3 +70,17 @@ body {
   background-color: black;
   color           : white;
 }
+
+.flex {
+  border: 1px dashed gray;
+}
+
+.content-container {
+  border: 1px dotted lightgrey;
+}
+ 
+.content-body {
+  border: 1px dotted lightskyblue;
+  height: 100px; 
+  background-color: lightslategray;
+} 
