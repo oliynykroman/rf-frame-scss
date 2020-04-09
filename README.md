@@ -50,6 +50,15 @@ All configs combined in settings.js
     $cont_width         : 95%; //grid full width
     $max_cont_width     : 1170px; //max-width
     ```
+    Grid system classes:
+    ```
+    .flex-container-fluid - fluid grid container 
+    .flex-container - fixed by $max_cont_width grid container 
+    .flex-row - flex row
+    .flex-col-{{media query breakpoint can be defined in _vars.scss}}-{{column width}} 
+    .flex-col-{{media query breakpoint}}-hidden
+    .flex-col-{{column name}}-hidden
+    ```
 
 ## Image sprites
 1. Set  next properties in settings.js to true:
