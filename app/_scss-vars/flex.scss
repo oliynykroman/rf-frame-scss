@@ -2,11 +2,11 @@
 
 /*FLEX GRID IN SITE*/
 .flex-container {
-  width    : $cont_width;
-  max-width: $max_cont_width;
+  width        : $cont_width;
+  max-width    : $max_cont_width;
   padding-right: $column_spacer-left;
   padding-left : $column_spacer-left;
-  margin   : 0 auto;
+  margin       : 0 auto;
   box-sizing   : border-box;
 }
 
@@ -98,7 +98,8 @@ $point in $user-breakpoints {
   @media (min-width: #{$point}) {
     @for $k from 1 through $column_counter {
       .flex-col-#{$breakpoint-name}-#{$k} {
-        width: calc(100% * (#{$k} / 12));
+        flex     : 0 0 calc(100% * (#{$k} / 12));
+        max-width: calc(100% * (#{$k} / 12));
       }
 
       .flex-col-#{$breakpoint-name}-hidden {
