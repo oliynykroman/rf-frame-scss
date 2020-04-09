@@ -70,10 +70,14 @@ All configs combined in settings.js
     ```
 
 ## Fonts:
-Main mixins:
+Font face mixins:
 ```
 @mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff ttf svg)
 @mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size)
+```
+Font size based on viewport:
+```
+@mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size) 
 ```
 
 
