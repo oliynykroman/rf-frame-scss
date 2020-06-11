@@ -1,7 +1,5 @@
-"use strict"
+
 import { settings } from './settings.js';
-
-
 
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
@@ -24,6 +22,8 @@ const jsonminify = require('gulp-jsonminify');
 
 // image min
 const imagemin = require('gulp-imagemin');
+const imageminMozjpeg = require("imagemin-mozjpeg")
+const imageResize = require("gulp-image-resize")
 
 //png, jpeg, svg sprites
 const spritesmith = require('gulp.spritesmith');
@@ -36,7 +36,37 @@ const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
 // compile scss into css
-function scss() {
+const responsiveImages = () => {
+    let stream;
+    settings.responsiveImage.sizes.forEach(size => {
+        console.log(size.suffix);
+        stream = gulp.src(settings.src.responsive)
+            .pipe(imageResize({ width: size.width }))
+            .pipe(
+                rename(path => {
+                    path.basename += `-${size.suffix}`
+                })
+            )
+            .pipe(
+                imagemin(
+                    [
+                        imageminMozjpeg({
+                            quality: size.quality,
+                        }),
+                    ],
+                    {
+                        verbose: true,
+                    }
+                )
+            )
+            .pipe(gulp.dest(settings.build.assets));
+    });
+    return stream;
+}
+
+exports.responsiveImages = responsiveImages;
+
+const scss = () => {
     return gulp.src(settings.src.style)
         .pipe(plumber())
         .pipe(sass(
@@ -50,41 +80,45 @@ function scss() {
             suffix: '.min'
         }))
         .pipe(gulp.dest(settings.build.css))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
 
-//move css 
-function cleanCss() {
+exports.scss = scss;
+
+//move css form folder css (normalize plugin required css)
+const cleanCss = () => {
     return gulp.src(settings.src.cleanCss)
         .pipe(plumber())
         .pipe(gulp.dest(settings.build.cleanCss))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
+exports.cleanCss = cleanCss;
 
 //move html and integrate SVG
-function html() {
+const html = () => {
     return gulp.src(settings.src.html)
         .pipe(plumber())
         .pipe(rigger())
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest(settings.build.html))
-        .pipe(reload({ stream: true }));
-
+        .pipe(browserSync.stream());
 }
+exports.html = html;
 
-//move js
-function jsMinify() {
+//js
+const jsMinify = () => {
     return gulp.src(settings.src.js)
         .pipe(plumber())
-        .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
         .pipe(gulp.dest(settings.build.js))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
-//minify json
-function jsonMinify() {
+exports.jsMinify = jsMinify;
+
+//json
+const jsonMinify = () => {
     return gulp.src(settings.src.json)
         .pipe(plumber())
         .pipe(jsonminify())
@@ -92,9 +126,13 @@ function jsonMinify() {
             suffix: '.min.json'
         }))
         .pipe(gulp.dest(settings.build.json));
+
 }
+exports.jsonMinify = jsonMinify;
+
+
 // minify images
-function imageMinify() {
+const imageMinify = () => {
     return gulp.src(settings.src.img)
         .pipe(plumber())
         .pipe(imagemin([
@@ -104,48 +142,10 @@ function imageMinify() {
         ]))
         .pipe(gulp.dest(settings.build.img));
 }
-
-//sprites generator
-function imageRasterSprites(cb) {
-    // raster (PNG, JPG) images
-    if (settings.isSprite_RASTER) {
-        let spriteData = gulp.src(settings.src.sprite_png)
-            .pipe(spritesmith({
-                imgName: 'sprite.png',
-                cssName: '_sprite.scss',
-                padding: 5
-            }));
-        let imgStream = spriteData.img
-            .pipe(gulp.dest(settings.build.img))
-        let cssStream = spriteData.css
-            .pipe(gulp.dest(settings.src.style));
-        return merge(imgStream, cssStream);
-    }
-    cb();
-}
-function imageVectorSprites(cb) {
-    // vector images SVG
-    if (settings.isSprite_VECTOR) {
-        return gulp.src(settings.src.sprite_svg)
-            .pipe(plumber())
-            .pipe(svgSprite({
-                selector: "sp-svg-%f",
-                svg: {
-                    sprite: "sprite.svg"
-                },
-                svgPath: "%f",
-                cssFile: "svg_sprite.css",
-                common: "sprite-svg"
-            }
-            ))
-            .pipe(gulp.dest(settings.build.img))
-            .pipe(reload({ stream: true }));
-    }
-    cb();
-}
+exports.imageMinify = imageMinify;
 
 // move addititional files
-function assets() {
+const assets = () => {
     return gulp.src(settings.src.assets)
         .pipe(plumber())
         .pipe(imagemin([
@@ -154,42 +154,44 @@ function assets() {
             imagemin.optipng({ optimizationLevel: 5 })
         ]))
         .pipe(gulp.dest(settings.build.assets))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
+exports.assets = assets;
 
 // favicons folder
-function favicons() {
+const favicons = () => {
     return gulp.src(settings.src.favicons)
         .pipe(plumber())
         .pipe(gulp.dest(settings.build.favicons))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
+exports.favicons = favicons;
 
 // ico move
-function ico() {
+const ico = () => {
     return gulp.src(settings.src.ico)
         .pipe(plumber())
         .pipe(gulp.dest(settings.build.ico))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
+exports.ico = ico;
 
 // folder fonts move
-function fonts() {
+const fonts = () => {
     return gulp.src(settings.src.fonts)
         .pipe(plumber())
         .pipe(gulp.dest(settings.build.fonts))
-        .pipe(reload({ stream: true }));
+        .pipe(browserSync.stream());
 }
+exports.fonts = fonts;
 
-function watch() {
+const watch = () => {
     gulp.watch(settings.src.style, scss);
     gulp.watch(settings.src.cleanCss, cleanCss);
     gulp.watch(settings.src.html, html);
     gulp.watch(settings.src.js, jsMinify);
     gulp.watch(settings.src.json, jsonMinify);
     gulp.watch(settings.src.img, imageMinify);
-    gulp.watch(settings.src.sprite_png, imageRasterSprites);
-    gulp.watch(settings.src.sprite_svg, imageVectorSprites);
     gulp.watch(settings.src.assets, assets);
     gulp.watch(settings.src.favicons, favicons);
     gulp.watch(settings.src.ico, ico);
@@ -197,16 +199,36 @@ function watch() {
     if (!settings.isProxy) {
         return browserSync.init(settings.browser_sync, {
             server: {
-                baseDir: "build/"
-            }
+                baseDir: settings.build.html
+            },
+            port: settings.port
         });
     } else {
         // if proxy already have server
         return browserSync.init({
             proxy: {
-                target: settings.isProxy_path,
-            }
+                target: settings.isProxy_path
+            },
+            port: settings.port
         });
     }
 }
-gulp.task('default', gulp.series(scss, cleanCss, html, jsMinify, jsonMinify, imageMinify, imageRasterSprites, imageVectorSprites, assets, favicons, ico, fonts, watch));
+exports.watch = watch;
+
+exports.default = gulp.series(
+    gulp.parallel(
+        scss,
+        cleanCss,
+        html,
+        jsMinify,
+        jsonMinify
+    ),
+    gulp.parallel(
+        imageMinify,
+        assets,
+        favicons,
+        ico,
+        fonts),
+    gulp.parallel(
+        watch)
+);

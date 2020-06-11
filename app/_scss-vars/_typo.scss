@@ -77,4 +77,14 @@
 
 @mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size) {
   font-size: calc(#{$min-font-size}px + (#{$max-font-size} - #{$min-font-size}) * ((100vw - #{$min-vw}px) / (#{$max-vw} - #{$min-vw})));
+
+  @if $max-vw==1920 {
+    @media screen and (min-width:1921px) {
+      font-size: #{$max-font-size}px;
+    }
+  }
+
+  @if $min-vw==300 {
+    font-size: #{$min-font-size}px;
+  }
 }

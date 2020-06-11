@@ -1,5 +1,5 @@
 
-let settings = {
+const settings = {
 
     //property contain object with settings where should be placed builded files
     build: {
@@ -27,10 +27,17 @@ let settings = {
         fonts: 'app/fonts/**/*.*',
         json: 'app/json/*.json',
         assets: 'app/assets/**/*.*',
+        responsive: 'app/responsive/**/*.*',
         favicons: 'app/favicons/**/*.*',
         ico: 'app/*.ico',
     },
-
+    responsiveImage: {
+        sizes: [
+            { width: 320, quality: 40, suffix: "small" },
+            { width: 480, quality: 60, suffix: "medium" },
+            { width: 800, quality: 80, suffix: "large" },
+        ]
+    },
     //clean bulded folder
     clean: '/build',
 
@@ -46,6 +53,7 @@ let settings = {
     browser_sync: 'app/**/*.*',
     isProxy: false,//used when have local server instead browsersunc server
     isProxy_path: 'http://your full URL', //when local server used instead browsersync
+    port: 3002
 
 }
 

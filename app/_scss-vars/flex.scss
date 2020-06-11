@@ -84,8 +84,8 @@
 
 @for $k from 1 through $column_counter {
   .flex-col-#{$k} {
-    flex     : 0 0 calc(100% * (#{$k} / 12));
-    max-width: calc(100% * (#{$k} / 12));
+    flex     : 0 0 100% * ($k / 12);
+    max-width: 100% * ($k / 12);
   }
 
   .flex-col-#{$k}-hidden {
@@ -98,8 +98,8 @@ $point in $user-breakpoints {
   @media (min-width: #{$point}) {
     @for $k from 1 through $column_counter {
       .flex-col-#{$breakpoint-name}-#{$k} {
-        flex     : 0 0 calc(100% * (#{$k} / 12));
-        max-width: calc(100% * (#{$k} / 12));
+        flex     : 0 0 100% * ($k / 12);
+        max-width: 100% * ($k / 12);
       }
 
       .flex-col-#{$breakpoint-name}-hidden {

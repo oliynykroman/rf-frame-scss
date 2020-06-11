@@ -9,7 +9,7 @@
 
 //if used sprites uncomment this
 //@import "../_scss-vars/sprite";
-
+@include cssVars();
 @include exampleGrid();
 @include responsiveGrid(375px,
   20px,
@@ -36,7 +36,7 @@ body {
 .header {
   @include grid-column(7, 10, 13, 18);
   @include grid-row(1, 2);
-  background-color: yellow;
+  background-color: violet;
 }
 
 .menu {
@@ -78,9 +78,9 @@ body {
 .content-container {
   border: 1px dotted lightgrey;
 }
- 
+
 .content-body {
-  border: 1px dotted lightskyblue;
-  height: 100px; 
+  border          : 1px dotted lightskyblue;
+  height          : 100px;
   background-color: lightslategray;
-}  
+}
