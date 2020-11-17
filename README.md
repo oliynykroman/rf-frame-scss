@@ -5,7 +5,7 @@ Gulp 4 configuration file and scss mixins library.
 Supports grid generation for older versions IE(11, 10), updated mixins. 
 Added backstopJS for markup regressive testing
 
-## How to
+## Settings
 All configs combined in settings.js
 
 ## Grid grid:) mixins + settings
@@ -63,7 +63,7 @@ All configs combined in settings.js
 ## Image sprites
 1. Set  next properties in settings.js to true:
     ```
-    isSprite_RASTER: true, // set true if you need only raster sprites
+    isSprite_RASTER: false, // set true if you need only raster sprites
     isSprite_VECTOR: false  // set true if you need only vector sprites
     sprite_png: path for raster sprites image 
     sprite_svg: path for vector sprites image 
@@ -81,7 +81,24 @@ Font size based on viewport:
 ```
 
 
+## File Include
+File include based on  [gulp-file-include](https://www.npmjs.com/package/gulp-file-include): 
+Settigns
+```
+  prefix: '@@', // prefix for file include 
+  basepath: 'app/template' // base path to all includes
+```
+Example 
+```
+    @@include('head.html')
+    <!-- @@loop('PATH TO FILE', '/template/JSON FILE NAME') -->
+```
+
 ## Lunch
+```
+npm install
+```
+
 ```
 gulp
 ```

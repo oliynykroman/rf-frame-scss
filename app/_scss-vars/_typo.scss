@@ -46,11 +46,13 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
 @mixin text_shadows($txt_shadow){
   -webkit-text-shadow: $txt_shadow;
   -moz-text-shadow:$txt_shadow;
   text-shadow: $txt_shadow;
 }
+
 @mixin multicolumns($count:2, $gap:3em){
   -moz-column-count: $count;
   -moz-column-gap: $gap;
@@ -63,6 +65,7 @@
   column-count: $count;
   column-gap: $gap;
 }
+
 @mixin word-wrap() {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -75,6 +78,7 @@
   hyphens: auto;
 }
 
+// calc responsive font size
 @mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size) {
   font-size: calc(#{$min-font-size}px + (#{$max-font-size} - #{$min-font-size}) * ((100vw - #{$min-vw}px) / (#{$max-vw} - #{$min-vw})));
 

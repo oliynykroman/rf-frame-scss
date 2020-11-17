@@ -12,7 +12,7 @@ const rename = require('gulp-rename');
 sass.compiler = require('node-sass');
 
 // html injector html, svg
-const rigger = require('gulp-rigger');
+const fileinclude = require('gulp-file-include');
 const injectSvg = require('gulp-inject-svg');
 const injectSvgOptions = { base: '/app/' };
 
@@ -22,8 +22,9 @@ const jsonminify = require('gulp-jsonminify');
 
 // image min
 const imagemin = require('gulp-imagemin');
-const imageminMozjpeg = require("imagemin-mozjpeg")
-const imageResize = require("gulp-image-resize")
+const imageminMozjpeg = require("imagemin-mozjpeg");
+const imageResize = require("gulp-image-resize");
+var $ = require('gulp-load-plugins')();
 
 //png, jpeg, svg sprites
 const spritesmith = require('gulp.spritesmith');
@@ -35,27 +36,34 @@ const svgSprite = require("gulp-svg-sprites");
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
-// compile scss into css
+// Responsive images generator
 const responsiveImages = () => {
     let stream;
     settings.responsiveImage.sizes.forEach(size => {
-        console.log(size.suffix);
         stream = gulp.src(settings.src.responsive)
-            .pipe(imageResize({ width: size.width }))
             .pipe(
-                rename(path => {
-                    path.basename += `-${size.suffix}`
-                })
-            )
-            .pipe(
-                imagemin(
-                    [
-                        imageminMozjpeg({
-                            quality: size.quality,
-                        }),
+                $.responsive({
+                    '*.jpg': [
+                        {
+                            width: size.width,
+                            format: 'webp',
+                            rename: { suffix: `-${size.width}` }
+                        },
+                        {
+                            // Compress, strip metadata, and rename original image
+                            format: 'webp',
+                            rename: { suffix: '-original' }
+                        }
                     ],
+                },
                     {
-                        verbose: true,
+                        // Global configuration for all images
+                        // The output quality for JPEG, WebP and TIFF output formats
+                        quality: size.quality,
+                        // Use progressive (interlace) scan for JPEG and PNG output
+                        progressive: true,
+                        // Strip all metadata
+                        withMetadata: false
                     }
                 )
             )
@@ -63,7 +71,6 @@ const responsiveImages = () => {
     });
     return stream;
 }
-
 exports.responsiveImages = responsiveImages;
 
 const scss = () => {
@@ -98,7 +105,8 @@ exports.cleanCss = cleanCss;
 const html = () => {
     return gulp.src(settings.src.html)
         .pipe(plumber())
-        .pipe(rigger())
+        // .pipe(rigger())
+        .pipe(fileinclude(settings.htmlInlcudeSettings))
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest(settings.build.html))
         .pipe(browserSync.stream());
@@ -109,6 +117,7 @@ exports.html = html;
 const jsMinify = () => {
     return gulp.src(settings.src.js)
         .pipe(plumber())
+        .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
@@ -123,13 +132,12 @@ const jsonMinify = () => {
         .pipe(plumber())
         .pipe(jsonminify())
         .pipe(rename({
-            suffix: '.min.json'
+            suffix: '.min'
         }))
         .pipe(gulp.dest(settings.build.json));
 
 }
 exports.jsonMinify = jsonMinify;
-
 
 // minify images
 const imageMinify = () => {
@@ -153,8 +161,7 @@ const assets = () => {
             imagemin.jpegtran({ progressive: true }),
             imagemin.optipng({ optimizationLevel: 5 })
         ]))
-        .pipe(gulp.dest(settings.build.assets))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest(settings.build.assets));
 }
 exports.assets = assets;
 
@@ -191,6 +198,7 @@ const watch = () => {
     gulp.watch(settings.src.html, html);
     gulp.watch(settings.src.js, jsMinify);
     gulp.watch(settings.src.json, jsonMinify);
+    gulp.watch(settings.src.responsive, responsiveImages);
     gulp.watch(settings.src.img, imageMinify);
     gulp.watch(settings.src.assets, assets);
     gulp.watch(settings.src.favicons, favicons);
@@ -224,6 +232,7 @@ exports.default = gulp.series(
         jsonMinify
     ),
     gulp.parallel(
+        responsiveImages,
         imageMinify,
         assets,
         favicons,

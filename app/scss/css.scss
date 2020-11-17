@@ -9,39 +9,48 @@
 
 //if used sprites uncomment this
 //@import "../_scss-vars/sprite";
-@include cssVars();
-@include exampleGrid();
-@include responsiveGrid(375px,
-  20px,
-  1fr repeat(12, minmax(8px, 10%)) 1fr,
-  "1fr (20px minmax(8px, 10%))[12] 20px 1fr",
-  1fr repeat(12, minmax(8px, 10%)) 1fr);
-@include responsiveGrid(1023px,
+@include cssVars(); 
+// @include exampleGrid();
+@include responsiveGrid(28,
+  true,
+  0,
+  10px,
+  1fr repeat(4, minmax(8px, 10%)) 1fr,
+  1fr repeat(4, 10px minmax(8px, 10%)) 10px 1fr,
+  "1fr (10px minmax(8px, 10%))[4] 10px 1fr");
+
+@include responsiveGrid(28,
+  true,
+  1023px,
   20px,
   1fr repeat(12, minmax(0, 60px)) 1fr,
-  "1fr (20px minmax(0px, 60px))[12] 60px 1fr",
-  1fr repeat(12, minmax(0px, 60px)) 1fr);
-@include responsiveGrid();
+  1fr repeat(12, 20px minmax(0, 60px)) 20px 1fr,
+  "1fr (20px minmax(0px, 60px))[12] 20px 1fr");
+
+@include responsiveGrid(28);
 
 body {
-  margin : 0;
-  padding: 0;
+  margin: 0;
 }
 
 .grid {
   display: grid;
   margin : 100px 0;
+
+  >* {
+    padding: 20px;
+  }
 }
 
 .header {
-  @include grid-column(7, 10, 13, 18);
+  @include grid-column(1, 15, 1, 28);
   @include grid-row(1, 2);
   background-color: violet;
 }
 
 .menu {
-  @include grid-column(10, 13, 19, 24);
-  @include grid-row(1, 7);
+  @include grid-column(10, 14, 19, 27);
+  @include grid-row(2, 7);
   background: red;
 }
 
@@ -54,7 +63,6 @@ body {
 .news {
   @include grid-column(8, 10, 15, 18);
   @include grid-row(2, 3, 3, 4);
-  // background-color: gray;
   @include var(background-color, red);
 }
 
@@ -65,7 +73,7 @@ body {
 }
 
 .footer {
-  @include grid-column(1, 13, 1, 24);
+  @include grid-column(1, 15, 1, 28);
   @include grid-row(6, 7, 7, 8);
   background-color: black;
   color           : white;

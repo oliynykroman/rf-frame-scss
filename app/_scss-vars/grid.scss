@@ -15,6 +15,10 @@
       line-height: 2;
       color      : white;
 
+      .box {
+        display: none;
+      }
+
       @for $i from 1 through $columns {
         .box:nth-of-type(#{$i}) {
           grid-column     : #{$i};
@@ -23,6 +27,7 @@
           box-sizing      : border-box;
           position        : relative;
           border-right    : 1px solid white;
+          display         : block;
 
           &:after {
             content: '#{$i}';
@@ -51,32 +56,45 @@
   }
 }
 
-@mixin responsiveGrid($screenSize:1280px,
+@mixin responsiveGrid($gridPreviewColumns:0,
+  $legacySupport: false,
+  $screenSize:1280px,
   $gridGap:30px,
   $normalGrid: 1fr repeat(12, minmax(0, 70px)) 1fr,
   $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr,
   $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") {
-  @media screen and (min-width: $screenSize) {
-    .example-grid {
-      .normal-grid {
-        grid-column-gap      : $gridGap;
-        grid-template-columns: $normalGrid;
-      }
+  @if $gridPreviewColumns>0 {
+    @include exampleGrid($gridPreviewColumns);
+  }
 
-      .legacy-grid {
-        grid-template-columns: 1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr;
+  @media screen and (min-width: $screenSize) {
+    @if $gridPreviewColumns>0 {
+      .example-grid {
+        .normal-grid {
+          grid-column-gap      : $gridGap;
+          grid-template-columns: $normalGrid;
+        }
+
+        .legacy-grid {
+          grid-template-columns: $legacyGrid;
+        }
       }
     }
 
     .grid {
-      grid-column-gap          : $gridGap;
-      $from-smartphone-portrait: unquote($ieNativeGrid);
-      -ms-grid-columns         : $from-smartphone-portrait;
-      grid-template-columns    : $normalGrid;
+      @if $legacySupport {
+        $from-smartphone-portrait: unquote($ieNativeGrid);
+        -ms-grid-columns         : $from-smartphone-portrait;
+        grid-template-columns    : $legacyGrid;
+      }
+
+      @else {
+        grid-column-gap      : $gridGap;
+        grid-template-columns: $normalGrid;
+      }
     }
   }
 }
-
 
 @function grid-repeat($stuff, $repeat, $gap) {
   $list: ();

@@ -12,8 +12,8 @@
 <body>
     <main class="grid">
         <article class="content">this is main content</article>
-        <!--<header class="header">this is hader</header>-->
-        //= template/head.html
+        @@include('head.html')
+        <!-- @@loop('PATH TO FILE', 'PATH TO JSON DATA FILE') -->
         <nav class="menu">main menu</nav>
         <section class="banner">this is banner</section>
         <section class="news">this is news</section>
@@ -48,7 +48,9 @@
                 <div class="content-body"></div>
             </div>
             <div class="flex-col content-container">
-                <div class="content-body"></div>
+                <div class="content-body">
+                   
+                </div>
             </div>
         </div>
     </section> 
@@ -56,7 +58,7 @@
     <!-- grid for IE settings -->
     <script>
         var gridSettings = {
-            columns: 14,
+            columns: 28,
             gaps: true,
             customClass: 'box'
         } 

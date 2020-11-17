@@ -17,7 +17,7 @@ const settings = {
 
     //property contain object for start configuration
     src: {
-        html: ['app/*.html'],
+        html: ['app/**/*.html'],
         js: 'app/js/*.js',
         style: ['app/scss/*.scss'],
         cleanCss: ['app/css/*.css'],
@@ -33,27 +33,33 @@ const settings = {
     },
     responsiveImage: {
         sizes: [
-            { width: 320, quality: 40, suffix: "small" },
-            { width: 480, quality: 60, suffix: "medium" },
-            { width: 800, quality: 80, suffix: "large" },
+            { width: 320, quality: 40 },
+            { width: 480, quality: 60 },
+            { width: 800, quality: 80 },
         ]
+    },
+
+    //html Includde settings
+    htmlInlcudeSettings: {
+        prefix: '@@',
+        basepath: 'app/template'
     },
     //clean bulded folder
     clean: '/build',
 
     //build raster or/and vectro sprites, in main scss should be uncommented sprite css
-    isSprite_RASTER: true,
+    isSprite_RASTER: false,
     isSprite_VECTOR: false,
 
     //scss compilation settings
     compress_Css: 'expanded', //'compressed', 'nested', 'expanded',
-    legacyGrid: true,
+    legacyGrid: false,
 
     //browser sync settings
     browser_sync: 'app/**/*.*',
     isProxy: false,//used when have local server instead browsersunc server
     isProxy_path: 'http://your full URL', //when local server used instead browsersync
-    port: 3002
+    port: 3001
 
 }
 
