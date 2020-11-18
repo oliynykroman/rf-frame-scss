@@ -59,7 +59,6 @@ typings/
 
 # next.js build output
 .next
-build/
 .idea/
 package-lock.json
 backstop_data/
