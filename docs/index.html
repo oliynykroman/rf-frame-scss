@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/css.min.css">
+    <script rel="script" src="js/main.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <h2>Grid layout example</h2>
+    <main class="grid">
+        <article class="content">Content</article>
+        <section class="header">
+        Header
+</section>
+        <!-- @@loop('PATH TO FILE', 'PATH TO JSON DATA FILE') -->
+        <nav class="menu">Menu</nav>
+        <section class="banner">Banner</section>
+        <section class="news">News</section>
+        <section class="image"><picture>
+    <source srcset="assets/example-320.webp 1x, assets/example-320.webp 2x" media="(max-width: 320px)" type="image/webp">
+    <source srcset="assets/example-480.webp 1x, assets/example-480.webp 2x" media="(max-width: 480px)" type="image/webp">
+    <source srcset="assets/example-800.webp 1x, assets/example-800.webp 2x" media="(min-width: 800px)" type="image/webp">
+    <img src="assets/example.jpg" alt="">
+</picture></section>
+        <footer class="footer">Footer</footer>  
+    </main>
+    <h2>Flex layout example</h2>
+    <section class="flex-container-fluid flex">
+        <div class="flex-row">
+            <div class="flex-col-6 content-container ">
+                <div class="content-body">
+                </div>
+            </div>
+            <div class="flex-col-3 content-container">
+                <div class="content-body"></div>
+            </div>
+            <div class="flex-col-2 content-container">
+                <div class="content-body"></div>
+            </div>
+            <div class="flex-col content-container">
+                <div class="content-body"></div>
+            </div>
+        </div>
+    </section>
+    <section class="flex-container flex">
+        <div class="flex-row">
+            <div class="flex-col-12 flex-col-small-6 content-container ">
+                <div class="content-body"></div>
+            </div>
+            <div class="flex-col content-container">
+                <div class="content-body"></div>
+            </div>
+            <div class="flex-col content-container">
+                <div class="content-body"></div>
+            </div>
+            <div class="flex-col content-container">
+                <div class="content-body">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- grid for IE settings -->
+    <script>
+        var gridSettings = {
+            columns: 12,
+            gaps: true,
+            customClass: 'box'
+        } 
+    </script>
+    <script rel="script" src="js/example-grid.min.js" type="text/javascript"></script>
+
+</body>
+
+</html>
