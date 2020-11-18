@@ -3,38 +3,34 @@
 Gulp 4 configuration file and scss mixins library. 
 
 Supports grid generation for older versions IE(11, 10), updated mixins. 
-Added backstopJS for markup regressive testing
+Added backstopJS for markup testing
+Added responsive images generation with shared picture element
 
 ## Settings
 All configs combined in settings.js
 
 ## Grid grid:) mixins + settings
-1. Set to true 'legacyGrid' property
-2. Add "js/example-grid.min.js" to main index.html
+1. Set to true 'legacyGrid' property in settings.js
+2. Add "js/example-grid.min.js" to main index.html (this will generate html for example grids(for IE and older browsers))
     ```
     <script>
         var gridSettings = {
-            columns: 14,
+            columns: 12,
             gaps: true,
             customClass: 'box'
         }
     </script>
     ```
 3. Import "../_scss-vars/grid"; to main SCSS file
-
-    3.1 Set number of columns and generate EXAMPLE grid css  (this code prepare grid like in desktop bootstrap):
-    ```
-        @mixin exampleGrid($columns:28); //default 28 (12 columns for normal browsers, 28 for ie (older specs don't have gaps))
-    ```
-         
-    3.2 Define MAIN responsive grid for all browsers (this code prepare grid like in desktop bootstrap):
     ```
         @mixin responsiveGrid(
+        $gridPreviewColumns:12, // number of columns
+        $showlegacyGrid: false, // show/hide example legacy grid 
         $screenSize:1280px, // define @media min-width
         $gridGap:30px, // set grid gaps for normal grid
         $normalGrid: 1fr repeat(12, minmax(0, 70px)) 1fr, // define grid for normal browser (new standart)
-        $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr, //define legacy grid for ie 11 and browsers without repeat option support
-        $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") //define grid for IE (old standart)
+        $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr, //define legacy grid for IE11 and browsers without repeat option support
+        $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") //define grid for IE(old standart)
         )
     ```
 
@@ -61,13 +57,30 @@ All configs combined in settings.js
     ```
 
 ## Image sprites
-1. Set  next properties in settings.js to true:
+1. Define source files and builded files path in  settings.src: and settings.build :
+2. Set next properties in settings.js to true:
     ```
     isSprite_RASTER: false, // set true if you need only raster sprites
     isSprite_VECTOR: false  // set true if you need only vector sprites
     sprite_png: path for raster sprites image 
     sprite_svg: path for vector sprites image 
     ```
+## Responsive images
+1. Define source files and builded files path in  settings.src: and settings.build :
+2. Set array of sizes and image quality fo generated images in settings.js:
+```
+  responsiveImage: {
+        sizes: [
+            { width: 320, quality: 40 },
+            { width: 480, quality: 60 },
+            { width: 800, quality: 80 },
+        ]
+    },
+```
+2.1. Input image should be *.jpg
+2.2. Output: array of *.webp (filename-${size.width}.webp) and original *.jpg  (filename-original.jpg) 
+
+3.
 
 ## Fonts:
 Font face mixins:
@@ -80,7 +93,6 @@ Font size based on viewport:
 @mixin calc-font-size($min-vw, $max-vw, $min-font-size, $max-font-size) 
 ```
 
-
 ## File Include
 File include based on  [gulp-file-include](https://www.npmjs.com/package/gulp-file-include): 
 Settigns
@@ -90,8 +102,8 @@ Settigns
 ```
 Example 
 ```
-    @@include('head.html')
-    <!-- @@loop('PATH TO FILE', '/template/JSON FILE NAME') -->
+    @@include('head.html')  // inlude file
+    <!-- @@loop('PATH TO FILE', '/template/JSON FILE NAME') --> //include file with custom JSON data
 ```
 
 ## Lunch
@@ -102,7 +114,6 @@ npm install
 ```
 gulp
 ```
-
 ## Testing
 Based on [BackstopJS](https://github.com/garris/BackstopJS): 
 1. Install BackstopJS

@@ -25,8 +25,7 @@ function generateGrid(normalGridColumnsCount, gridGaps, className) {
 function box() {
     var boxGrid = document.createElement('div');
     boxGrid.className += 'box';
-
     return boxGrid;
 }
 
-generateGrid(gridSettings.columns, gridSettings.gaps, gridSettings.customClass);
+generateGrid((gridSettings.columns * 2) - 1, gridSettings.gaps, gridSettings.customClass);

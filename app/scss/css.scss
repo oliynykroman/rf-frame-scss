@@ -6,37 +6,41 @@
 //@import "../_scss-vars/typo";
 //@import "../_scss-vars/bars";
 @import "../_scss-vars/flex";
-
+ 
 //if used sprites uncomment this
 //@import "../_scss-vars/sprite";
-@include cssVars(); 
+@include cssVars();
 // @include exampleGrid();
-@include responsiveGrid(28,
-  true,
-  0,
+@include responsiveGrid(4,
+  false,
+  280px,   
   10px,
-  1fr repeat(4, minmax(8px, 10%)) 1fr,
-  1fr repeat(4, 10px minmax(8px, 10%)) 10px 1fr,
-  "1fr (10px minmax(8px, 10%))[4] 10px 1fr");
+  10px repeat(4, minmax(8px, 25%)) 10px,
+  10px repeat(4, 10px minmax(8px, 25%)) 10px,
+  "(10px minmax(8px, 10%))[4] 10px"
+);
+@include responsiveGrid(8,
+  false,
+  768px,
+  15px,  
+  1fr repeat(8, minmax(8px, 60px)) 1fr,
+  1fr repeat(8, 15px minmax(8px, 60px)) 15px 1fr,
+  "1fr (15px minmax(8px, 60px))[4] 15px 1fr");
 
-@include responsiveGrid(28,
-  true,
-  1023px,
+@include responsiveGrid(12,
+  true, 
+  1023px, 
   20px,
   1fr repeat(12, minmax(0, 60px)) 1fr,
   1fr repeat(12, 20px minmax(0, 60px)) 20px 1fr,
   "1fr (20px minmax(0px, 60px))[12] 20px 1fr");
-
-@include responsiveGrid(28);
 
 body {
   margin: 0;
 }
 
 .grid {
-  display: grid;
-  margin : 100px 0;
-
+  margin : 100px 0;  
   >* {
     padding: 20px;
   }
@@ -49,25 +53,25 @@ body {
 }
 
 .menu {
-  @include grid-column(10, 14, 19, 27);
+  @include grid-column(10, 14, 19, 26);
   @include grid-row(2, 7);
   background: red;
 }
 
 .banner {
-  @include grid-column(3, 8, 5, 14);
+  @include grid-column(2, 8, 5, 14);
   @include grid-row(2, 3, 3, 4);
   background-color: green;
 }
-
-.news {
+ 
+.news { 
   @include grid-column(8, 10, 15, 18);
   @include grid-row(2, 3, 3, 4);
   @include var(background-color, red);
 }
 
 .content {
-  @include grid-column(3, 10, 5, 18);
+  @include grid-column(2, 10, 5, 18);
   @include grid-row(4, 6, 5, 7);
   background-color: violet;
 }
@@ -78,6 +82,7 @@ body {
   background-color: black;
   color           : white;
 }
+
 
 .flex {
   border: 1px dashed gray;

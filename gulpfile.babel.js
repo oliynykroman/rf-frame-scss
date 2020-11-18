@@ -51,7 +51,6 @@ const responsiveImages = () => {
                         },
                         {
                             // Compress, strip metadata, and rename original image
-                            format: 'webp',
                             rename: { suffix: '-original' }
                         }
                     ],

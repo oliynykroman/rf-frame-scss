@@ -53,7 +53,7 @@ const settings = {
 
     //scss compilation settings
     compress_Css: 'expanded', //'compressed', 'nested', 'expanded',
-    legacyGrid: false,
+    legacyGrid: true,
 
     //browser sync settings
     browser_sync: 'app/**/*.*',

@@ -1,4 +1,4 @@
-@mixin exampleGrid($columns:28) {
+@mixin exampleGrid($columns:28, $screenSize:100px) {
   .example-grid {
     position      : fixed;
     top           : 0;
@@ -10,6 +10,7 @@
 
     .normal-grid,
     .legacy-grid {
+      display    : -ms-grid;
       display    : grid;
       font-size  : 8px;
       line-height: 2;
@@ -19,7 +20,7 @@
         display: none;
       }
 
-      @for $i from 1 through $columns {
+      @for $i from 1 through (($columns + 2) * 2) {
         .box:nth-of-type(#{$i}) {
           grid-column     : #{$i};
           background-color: cornflowerblue;
@@ -27,7 +28,6 @@
           box-sizing      : border-box;
           position        : relative;
           border-right    : 1px solid white;
-          display         : block;
 
           &:after {
             content: '#{$i}';
@@ -44,8 +44,25 @@
       }
     }
 
+    .legacy-grid {
+      @media screen and (min-width: $screenSize) {
+        @for $i from 1 through (($columns + 2) * 2) - 1 {
+          .box:nth-of-type(#{$i}) {
+            display: block;
+          }
+        }
+      }
+    }
+
     .normal-grid {
       display: none;
+      @media screen and (min-width: $screenSize) {
+        @for $i from 1 through $columns+2 {
+          .box:nth-of-type(#{$i}) {
+            display: block;
+          }
+        }
+      }
     }
 
     @supports (display: grid) {
@@ -56,19 +73,26 @@
   }
 }
 
-@mixin responsiveGrid($gridPreviewColumns:0,
-  $legacySupport: false,
+@mixin responsiveGrid(
+  $gridPreviewColumns:12,
+  $showlegacyGrid: false,
   $screenSize:1280px,
   $gridGap:30px,
   $normalGrid: 1fr repeat(12, minmax(0, 70px)) 1fr,
   $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr,
-  $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") {
-  @if $gridPreviewColumns>0 {
-    @include exampleGrid($gridPreviewColumns);
+  $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr"
+  ) {
+
+  @if $showlegacyGrid {
+    @include exampleGrid($gridPreviewColumns, $screenSize);
+  }
+  .grid {
+    display: -ms-grid;
+    display: grid;
   }
 
   @media screen and (min-width: $screenSize) {
-    @if $gridPreviewColumns>0 {
+    @if $showlegacyGrid {
       .example-grid {
         .normal-grid {
           grid-column-gap      : $gridGap;
@@ -76,22 +100,20 @@
         }
 
         .legacy-grid {
-          grid-template-columns: $legacyGrid;
+          display: -ms-grid;
+          display: grid;
+          $from-smartphone-portrait: unquote($ieNativeGrid);
+          -ms-grid-columns         : $from-smartphone-portrait;
+          grid-template-columns    : $legacyGrid;
         }
       }
     }
 
     .grid {
-      @if $legacySupport {
-        $from-smartphone-portrait: unquote($ieNativeGrid);
-        -ms-grid-columns         : $from-smartphone-portrait;
-        grid-template-columns    : $legacyGrid;
-      }
-
-      @else {
-        grid-column-gap      : $gridGap;
-        grid-template-columns: $normalGrid;
-      }
+      grid-column-gap          : $gridGap;
+      $from-smartphone-portrait: unquote($ieNativeGrid);
+      -ms-grid-columns         : $from-smartphone-portrait;
+      grid-template-columns    : $normalGrid;
     }
   }
 }
