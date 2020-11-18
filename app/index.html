@@ -10,17 +10,18 @@
 </head>
 
 <body>
+    <h2>Grid layout example</h2>
     <main class="grid">
-        <article class="content">this is main content )</article>
+        <article class="content">Content</article>
         @@include('head.html')
         <!-- @@loop('PATH TO FILE', 'PATH TO JSON DATA FILE') -->
-        <nav class="menu">main menu</nav>
-        <section class="banner">this is banner</section>
-        <section class="news">this is news</section>
+        <nav class="menu">Menu</nav>
+        <section class="banner">Banner</section>
+        <section class="news">News</section>
         <section class="image">@@include('picture.html', {"name":"example"})</section>
-        <footer class="footer">this is footer</footer>  
+        <footer class="footer">Footer</footer>  
     </main>
- 
+    <h2>Flex layout example</h2>
     <section class="flex-container-fluid flex">
         <div class="flex-row">
             <div class="flex-col-6 content-container ">

@@ -39,9 +39,11 @@ body {
   margin: 0;
 }
 
-.grid {
-  margin: 100px 0;
+h2 {
+  margin: 70px 0 20px 0;
+}
 
+.grid {
   >* {
     padding: 20px;
   }
@@ -89,7 +91,7 @@ body {
   }
 
   picture {
-    width: 300px;
+    width  : 300px;
     display: inline-block;
   }
 }
