@@ -77,10 +77,23 @@ All configs combined in settings.js
         ]
     },
 ```
-2.1. Input image should be *.jpg
-2.2. Output: array of *.webp (filename-${size.width}.webp) and original *.jpg  (filename-original.jpg) 
-
-3.
+2. Input image should be *.jpg
+2. Output: array of *.webp (filename-${size.width}.webp) and original *.jpg  (filename.jpg) 
+3. Prepare your image .html
+Example:
+```
+<picture>
+    <source srcset="assets/@@name-320.webp 1x, assets/@@name-320.webp 2x" media="(max-width: 320px)" type="image/webp">
+    <source srcset="assets/@@name-480.webp 1x, assets/@@name-480.webp 2x" media="(max-width: 480px)" type="image/webp">
+    <source srcset="assets/@@name-800.webp 1x, assets/@@name-800.webp 2x" media="(min-width: 800px)" type="image/webp">
+    <img src="assets/@@name.jpg" alt="">
+</picture>
+```
+4. Include image html:
+Example:
+```
+@@include('picture.html', {"name":"example"})
+```
 
 ## Fonts:
 Font face mixins:

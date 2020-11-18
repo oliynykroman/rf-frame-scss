@@ -48,10 +48,6 @@ const responsiveImages = () => {
                             width: size.width,
                             format: 'webp',
                             rename: { suffix: `-${size.width}` }
-                        },
-                        {
-                            // Compress, strip metadata, and rename original image
-                            rename: { suffix: '-original' }
                         }
                     ],
                 },
