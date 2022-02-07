@@ -52,7 +52,7 @@ const settings = {
     isSprite_VECTOR: false,
 
     //scss compilation settings
-    compress_Css: 'expanded', //'compressed', 'nested', 'expanded',
+    compress_Css: 'compressed', //'compressed', 'nested', 'expanded',
     legacyGrid: true,
 
     //browser sync settings

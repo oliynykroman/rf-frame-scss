@@ -5,11 +5,11 @@ const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 
 // sass
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
-sass.compiler = require('node-sass');
+
 
 // html injector html, svg
 const fileinclude = require('gulp-file-include');
@@ -21,52 +21,18 @@ const uglify = require('gulp-uglify');
 const jsonminify = require('gulp-jsonminify');
 
 // image min
-const imagemin = require('gulp-imagemin');
-const imageminMozjpeg = require("imagemin-mozjpeg");
-const imageResize = require("gulp-image-resize");
-var $ = require('gulp-load-plugins')();
+// const imageminMozjpeg = require("imagemin-mozjpeg");
+// const imageResize = require("gulp-image-resize");
+// var $ = require('gulp-load-plugins')();
 
 //png, jpeg, svg sprites
 const spritesmith = require('gulp.spritesmith');
 const merge = require('merge-stream');
 const buffer = require('vinyl-buffer');
-const svgSprite = require("gulp-svg-sprites");
 
 // browser sync
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
-
-// Responsive images generator
-const responsiveImages = () => {
-    let stream;
-    settings.responsiveImage.sizes.forEach(size => {
-        stream = gulp.src(settings.src.responsive)
-            .pipe(
-                $.responsive({
-                    '*.jpg': [
-                        {
-                            width: size.width,
-                            format: 'webp',
-                            rename: { suffix: `-${size.width}` }
-                        }
-                    ],
-                },
-                    {
-                        // Global configuration for all images
-                        // The output quality for JPEG, WebP and TIFF output formats
-                        quality: size.quality,
-                        // Use progressive (interlace) scan for JPEG and PNG output
-                        progressive: true,
-                        // Strip all metadata
-                        withMetadata: false
-                    }
-                )
-            )
-            .pipe(gulp.dest(settings.build.assets));
-    });
-    return stream;
-}
-exports.responsiveImages = responsiveImages;
 
 const scss = () => {
     return gulp.src(settings.src.style)
@@ -100,7 +66,6 @@ exports.cleanCss = cleanCss;
 const html = () => {
     return gulp.src(settings.src.html)
         .pipe(plumber())
-        // .pipe(rigger())
         .pipe(fileinclude(settings.htmlInlcudeSettings))
         .pipe(injectSvg(injectSvgOptions))
         .pipe(gulp.dest(settings.build.html))
@@ -134,28 +99,10 @@ const jsonMinify = () => {
 }
 exports.jsonMinify = jsonMinify;
 
-// minify images
-const imageMinify = () => {
-    return gulp.src(settings.src.img)
-        .pipe(plumber())
-        .pipe(imagemin([
-            imagemin.gifsicle({ interlaced: true }),
-            imagemin.jpegtran({ progressive: true }),
-            imagemin.optipng({ optimizationLevel: 5 })
-        ]))
-        .pipe(gulp.dest(settings.build.img));
-}
-exports.imageMinify = imageMinify;
-
 // move addititional files
 const assets = () => {
-    return gulp.src(settings.src.assets)
+    return gulp.src(settings.src.assets) 
         .pipe(plumber())
-        .pipe(imagemin([
-            imagemin.gifsicle({ interlaced: true }),
-            imagemin.jpegtran({ progressive: true }),
-            imagemin.optipng({ optimizationLevel: 5 })
-        ]))
         .pipe(gulp.dest(settings.build.assets));
 }
 exports.assets = assets;
@@ -193,8 +140,6 @@ const watch = () => {
     gulp.watch(settings.src.html, html);
     gulp.watch(settings.src.js, jsMinify);
     gulp.watch(settings.src.json, jsonMinify);
-    gulp.watch(settings.src.responsive, responsiveImages);
-    gulp.watch(settings.src.img, imageMinify);
     gulp.watch(settings.src.assets, assets);
     gulp.watch(settings.src.favicons, favicons);
     gulp.watch(settings.src.ico, ico);
@@ -227,8 +172,6 @@ exports.default = gulp.series(
         jsonMinify
     ),
     gulp.parallel(
-        responsiveImages,
-        imageMinify,
         assets,
         favicons,
         ico,
