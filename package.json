@@ -15,16 +15,13 @@
     "maintained node versions"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.0",
-    "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
-    "babel": "^6.23.0",
-    "babel-register": "^6.26.0",
     "browser-sync": "^2.27.7",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-image": "^6.3.1",
     "gulp-image-resize": "^0.13.1",
-    "gulp-imagemin": "^8.0.0",
     "gulp-jsonminify": "^1.1.0",
     "gulp-load-plugins": "^2.0.7",
     "gulp-responsive-images": "^0.0.4",
