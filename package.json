@@ -1,6 +1,6 @@
 {
   "name": "rf-framework",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "rf-framework npm installer",
   "main": "index.js",
   "scripts": {

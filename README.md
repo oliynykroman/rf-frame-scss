@@ -123,6 +123,15 @@ Example
 ```
 npm install
 ```
+If you use MAC M1
+before install: 
+
+    xcode-select --install
+    brew install gcc
+    brew reinstall vips
+    brew info vips
+    npm i
+
 
 ```
 gulp
