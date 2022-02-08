@@ -27,7 +27,7 @@ const settings = {
         fonts: 'app/fonts/**/*.*',
         json: 'app/json/*.json',
         assets: 'app/assets/**/*.*',
-        responsive: 'app/responsive/**/*.*',
+        responsive: 'app/responsive/**/*.{jpg,png}',
         favicons: 'app/favicons/**/*.*',
         ico: 'app/*.ico',
     },
