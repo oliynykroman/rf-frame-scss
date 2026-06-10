@@ -1,119 +1,49 @@
+@import 'node_modules/modern-normalize/modern-normalize';
+
 //import mixins
 @import "../_scss-vars/vars";
-@import "../_scss-vars/animate";
-@import "../_scss-vars/box";
-@import "../_scss-vars/grid";
-//@import "../_scss-vars/typo";
-//@import "../_scss-vars/bars";
-@import "../_scss-vars/flex";
 
-//if used sprites uncomment this
-//@import "../_scss-vars/sprite";
-@include cssVars();
-// @include exampleGrid();
-@include responsiveGrid(4,
-  false,
-  280px,
-  10px,
-  10px repeat(4, minmax(8px, 25%)) 10px,
-  10px repeat(4, 10px minmax(8px, 25%)) 10px,
-  "(10px minmax(8px, 10%))[4] 10px"
-);
-@include responsiveGrid(8,
-  false,
-  768px,
-  15px,
-  1fr repeat(8, minmax(8px, 60px)) 1fr,
-  1fr repeat(8, 15px minmax(8px, 60px)) 15px 1fr,
-  "1fr (15px minmax(8px, 60px))[4] 15px 1fr");
+* {
+  box-sizing: border-box;
+}
 
-@include responsiveGrid(12,
-  true,
-  1023px,
-  20px,
-  1fr repeat(12, minmax(0, 60px)) 1fr,
-  1fr repeat(12, 20px minmax(0, 60px)) 20px 1fr,
-  "1fr (20px minmax(0px, 60px))[12] 20px 1fr");
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+}
+
 
 body {
-  margin: 0;
+  font-size: var(--fontSize);
+  font-family: var(--fontFamily);
+  background: var(--backgound, var(--powderGray));
+  color: var(--section-color, var(--midnightGreen));
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  font-weight: 300;
+  transition: background .6s ease;
+  text-rendering: geometricPrecision;
 }
 
-h2 {
-  margin: 70px 0 20px 0;
+img,
+picture,
+video {
+  width: 100%;
+  height: auto;
 }
 
-.grid {
-  >* {
-    padding: 20px;
-  }
+iframe {
+  border: none;
+  outline: none;
 }
 
-.header {
-  @include grid-column(1, 15, 1, 28);
-  @include grid-row(1, 2);
-  background-color: violet;
-}
+@import "typography";
+@import "media";
+@import "header";
+@import "footer";
 
-.menu {
-  @include grid-column(10, 14, 19, 26);
-  @include grid-row(2, 7);
-  background: red;
-}
-
-.banner {
-  @include grid-column(2, 8, 5, 14);
-  @include grid-row(2, 3, 3, 4);
-  background-color: green;
-}
-
-.news {
-  @include grid-column(8, 10, 15, 18);
-  @include grid-row(2, 3, 3, 4);
-  @include var(background-color, red);
-}
-
-.content {
-  @include grid-column(2, 10, 5, 18);
-  @include grid-row(4, 6, 5, 7);
-  background-color: violet;
-}
-
-.image {
-  @include grid-column(2, 13, 5, 26);
-  @include grid-row(6, 7, 7, 8);
-  padding: 0;
-
-  img {
-    width     : 100%;
-    height    : auto;
-    object-fit: cover;
-  }
-
-  picture {
-    width  : 300px;
-    display: inline-block;
-  }
-}
-
-.footer {
-  @include grid-column(1, 15, 1, 28);
-  @include grid-row(7, 8, 8, 9);
-  background-color: black;
-  color           : white;
-}
-
-
-.flex {
-  border: 1px dashed gray;
-}
-
-.content-container {
-  border: 1px dotted lightgrey;
-}
-
-.content-body {
-  border          : 1px dotted lightskyblue;
-  height          : 100px;
-  background-color: lightslategray;
-}

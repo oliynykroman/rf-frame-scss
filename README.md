@@ -1,60 +1,15 @@
 # rf-frame-scss
 
-Gulp 4 configuration file and scss mixins library. 
+Gulp 4 configuration file and scss mixins library (without leagacy grids, unused flex settings). 
+Is fully compatible with MAC M1 chip
 
-Supports grid generation for older versions IE(11, 10), updated mixins. 
-Added backstopJS for markup testing
+If needed old version with grid generator with grid visualiser, flex, and compatibility with IE10 fetaure please use.
+
+[Rf-frame-scss](https://github.com/oliynykroman/rf-frame-scss)
+
 Added responsive images generation with shared picture element
 
 ## Settings
-All configs combined in settings.js
-
-## Grid grid:) mixins + settings
-1. Set to true 'legacyGrid' property in settings.js
-2. Add "js/example-grid.min.js" to main index.html (this will generate html for example grids(for IE and older browsers))
-    ```
-    <script>
-        var gridSettings = {
-            columns: 12,
-            gaps: true,
-            customClass: 'box'
-        }
-    </script>
-    ```
-3. Import "../_scss-vars/grid"; to main SCSS file
-    ```
-        @mixin responsiveGrid(
-        $gridPreviewColumns:12, // number of columns
-        $showlegacyGrid: false, // show/hide example legacy grid 
-        $screenSize:1280px, // define @media min-width
-        $gridGap:30px, // set grid gaps for normal grid
-        $normalGrid: 1fr repeat(12, minmax(0, 70px)) 1fr, // define grid for normal browser (new standart)
-        $legacyGrid:1fr repeat(12, 30px minmax(0, 70px)) 30px 1fr, //define legacy grid for IE11 and browsers without repeat option support
-        $ieNativeGrid: "1fr (30px minmax(0px, 70px))[12] 30px 1fr") //define grid for IE(old standart)
-        )
-    ```
-
- 
-## Flex grid + settings 
-1.  Import "../_scss-vars/flex"; to main SCSS file  
-2.  In /_scss-vars/_vars.scss set:
-    ```
-    $column_spacer      : 15px; // column spacer
-    $column_spacer-left : $column_spacer; //spacer left
-    $column_spacer-right: $column_spacer; //spacer right
-    $column_counter     : 12; // column counter
-    $cont_width         : 95%; //grid full width
-    $max_cont_width     : 1170px; //max-width
-    ```
-    Grid system classes:
-    ```
-    .flex-container-fluid - fluid grid container 
-    .flex-container - fixed by $max_cont_width grid container 
-    .flex-row - flex row
-    .flex-col-{{media query breakpoint can be defined in _vars.scss}}-{{column width}} 
-    .flex-col-{{media query breakpoint}}-hidden
-    .flex-col-{{column name}}-hidden
-    ```
 
 ## Image sprites
 1. Define source files and builded files path in  settings.src: and settings.build :
@@ -69,13 +24,22 @@ All configs combined in settings.js
 1. Define source files and builded files path in  settings.src: and settings.build :
 2. Set array of sizes and image quality fo generated images in settings.js:
 ```
-  responsiveImage: {
-        sizes: [
-            { width: 320, quality: 40 },
-            { width: 480, quality: 60 },
-            { width: 800, quality: 80 },
-        ]
-    },
+   responsiveImage: {
+        formats: [
+            // jpeg
+            {width: 640, format: "jpeg", rename: {suffix: "-sm"}},
+            {width: 768, format: "jpeg", rename: {suffix: "-md"}},
+            {width: 1024, format: "jpeg", rename: {suffix: "-lg"}},
+            // webp
+            {width: 640, format: "webp", rename: {suffix: "-sm"}},
+            {width: 768, format: "webp", rename: {suffix: "-md"}},
+            {width: 1024, format: "webp", rename: {suffix: "-lg"}},
+            // avif
+            {width: 640, format: "avif", rename: {suffix: "-sm"}},
+            {width: 768, format: "avif", rename: {suffix: "-md"}},
+            {width: 1024, format: "avif", rename: {suffix: "-lg"}},
+        ],
+    }
 ```
 2. Input image should be *.jpg
 2. Output: array of *.webp (filename-${size.width}.webp) and original *.jpg  (filename.jpg) 
@@ -108,7 +72,7 @@ Font size based on viewport:
 
 ## File Include
 File include based on  [gulp-file-include](https://www.npmjs.com/package/gulp-file-include): 
-Settigns
+Settings
 ```
   prefix: '@@', // prefix for file include 
   basepath: 'app/template' // base path to all includes
@@ -123,16 +87,6 @@ Example
 ```
 npm install
 ```
-If you use MAC M1
-before install: 
-
-    xcode-select --install
-    brew install gcc
-    brew reinstall vips
-    brew info vips
-    npm i
-
-
 ```
 gulp
 ```

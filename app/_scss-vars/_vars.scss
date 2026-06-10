@@ -1,59 +1,40 @@
-/*Global vars*/
+:root {
+  --white: #ffffff;
+  --powderGray: #E8EDEA;
+  --stoneGray: #C0CDC8;
+  --spaceGray: #001E1E;
+  --midnightGreen: #003030;
+  --auroraGreen: #73FFAD;
+  --auroraGreenSlide: #41E696;
+  --forestGreen: #51A293;
+  --rosePink: #FF99A9;
+  --heroText: #738C8C;
+  --fontFamily: 'UniversalSansDisplay', 'sans';
+  --fontSize: 14.6px;
+  --colPadding: 24px;
+  --rowPadding: 24px;
+  --sectionPadding: 24px;
+  --animationColor: #003031;
+  --colorThemeTransition: .3s linear;
+}
 
-$white: #fff;
-$black: #000;
-
-@mixin cssVars() {
+@media screen and (min-width: 390px) {
   :root {
-    --red : #ff1e2d;
-    --blue: #0047ff;
+    --fontSize: 18px;
   }
 }
 
-$vars: (red: #ff1e2d,
-  blue: #0047ff,
-);
+@media screen and (min-width: 769px) {
+  :root {
+    --sectionPadding: 34px;
+    --colPadding: 34px;
+  }
+}
 
-/*columns*/
-$column_spacer      : 15px;
-$column_spacer-left : $column_spacer;
-$column_spacer-right: $column_spacer;
-$column_counter     : 12;
-$cont_width         : 95%;
-$max_cont_width     : 1170px;
 
-$globalPaddingLeft: 60px;
-$globalBigLeft    : 75px;
-
-/*grid sizes*/
 //you can use in media queries specyfic breakpoint
 //@media screen and (min-width: #{map_get($user-breakpoints, extra-small)}){}
-$user-breakpoints : (extra-small : 540px,
-  small : 769px,
-  medium : 960px,
-  large : 1200px);
-
-/*placeholder color mixin*/
-@mixin palceholders($placeholder-color) {
-  ::-webkit-input-placeholder {
-    color: $placeholder-color !important;
-  }
-
-  :-moz-placeholder {
-    color: $placeholder-color !important;
-  }
-
-  ::-moz-placeholder {
-    color: $placeholder-color !important;
-  }
-
-  :-ms-input-placeholder {
-    color: $placeholder-color !important;
-  }
-}
-
-/*css varable generator + fallback*/
-@mixin var($property, $varName) {
-  #{$property}: map-get($vars, $varName);
-  #{$property}: var(--#{$varName});
-}
+$user-breakpoints: (
+        small : 769px,
+        medium : 960px,
+        large : 1440px);

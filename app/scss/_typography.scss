@@ -1,0 +1,16 @@
+@font-face {
+  font-family: 'UniversalSansDisplay';
+  src: url('../fonts/UniversalSansDisplay-BoldItalic.eot');
+  src: url('../fonts/UniversalSansDisplay-BoldItalic.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/UniversalSansDisplay-BoldItalic.woff2') format('woff2'),
+  url('../fonts/UniversalSansDisplay-BoldItalic.woff') format('woff'),
+  url('../fonts/UniversalSansDisplay-BoldItalic.ttf') format('truetype'),
+  url('../fonts/UniversalSansDisplay-BoldItalic.svg#UniversalSansDisplay-BoldItalic') format('svg');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
